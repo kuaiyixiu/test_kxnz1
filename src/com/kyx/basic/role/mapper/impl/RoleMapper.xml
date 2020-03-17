@@ -105,10 +105,10 @@
     <include refid="Base_Column_List" />
     from role where id &gt; 1 and enable='1'
   </select>
-  <select id="queryByRoleKeySingle" resultType="com.kyx.basic.role.model.Role">
+  <select id="queryByRoleKeySingle" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from role
-    where role_key = ${roleKey,jdbcType=VARCHAR} limit 1
+    where role_key = #{roleKey,jdbcType=VARCHAR} limit 1
   </select>
 </mapper>

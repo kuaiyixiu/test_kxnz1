@@ -34,6 +34,10 @@
 		.mui-bar-tab ~ .mui-content {
 			padding-bottom: 50px !important;
 		}
+		.mui-control-content{
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
 	</style>
 </head>
 <body>
