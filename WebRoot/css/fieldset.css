@@ -1,0 +1,15 @@
+fieldset { 
+padding:10px; 
+margin-top:5px; 
+border:1px solid #1E7ACE; 
+background:#fff; 
+} 
+
+fieldset legend { 
+color:#1E7ACE; 
+font-weight:bold; 
+padding:3px 20px 3px 20px; 
+border:1px solid #1E7ACE;    
+background:#fff; 
+} 
+

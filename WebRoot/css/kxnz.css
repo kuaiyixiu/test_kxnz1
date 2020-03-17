@@ -1,0 +1,123 @@
+.kxnz-btn-default {
+  background-color: #2da8e3;
+}
+
+.layui-laypage .layui-laypage-curr .layui-laypage-em {
+  background-color: #2da8e3;
+}
+
+.showDetail {
+  color: #2da8e3;
+}
+
+.table-title {
+  color: #000
+}
+
+.normal-select {
+  width: 182px;
+}
+
+.timeOptions {
+ width: 300px;
+}
+
+.layui-form-checked[lay-skin=primary] i {
+	border-color: #2da8e3;
+    background-color: #2da8e3;
+}
+
+.layui-form-checked span, .layui-form-checked:hover span {
+    background-color: #2da8e3;
+}
+
+.layui-icon-default {
+	color: #2da8e3; 
+}
+
+.order-car-card {
+  color: white;
+  border-radius: 4px 4px;
+  padding: 20px 30px;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  background: #77829f;
+  height: 90px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.order-car-card-2 {
+  padding: 20px 0;
+  font-size: 22px;
+}
+
+.detailTitle {
+  background: #eeeeee;
+  height: 32px;
+  margin-top: 10px;
+}
+
+.detailTitle > h3 {
+  color: #77829f;
+  font-size: 18px;
+  padding-left: 13px;
+  padding-top: 4px;
+  border-left: 4px solid #77829f;
+}
+
+.cardDetail {
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.cardDetail .carList {
+  margin-top: 5px;
+  margin-left: 15px;
+}
+
+.cardDetail .carList >li {
+  color: #77829f;
+}
+
+.cardDetail .carList >li .carData {
+  color: #111111;
+}
+
+.cardDetail .totalSpan {
+  margin-top: 5px;
+  margin-left: 15px;
+}
+
+.cardDetail .closeButton {
+  float: right;
+}
+
+/* �ͻ��༭,��ӽ��� */
+#addCustomForm .addCarModule {
+  float: left;
+}
+
+#addCustomForm .addCarbutton {
+  margin-top: 25px;
+  margin-left: 220px;
+  background-color: #2da8e3;
+}
+
+#addCustomForm .carClose {
+  background-color: #2da8e3;
+}
+
+#addCarForm .layui-form-label {
+  width: 100px;
+}
+
+#addCarForm .layui-input-block {
+  margin-left: 130px;	
+}
+
+html {
+ background-color:#f2f2f2;
+ color:#666
+}
