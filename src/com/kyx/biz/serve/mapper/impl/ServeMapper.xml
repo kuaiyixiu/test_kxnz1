@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.serve.mapper.ServeMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.serve.model.Serve">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="serve_name" jdbcType="VARCHAR" property="serveName" />
+    <result column="class_name" jdbcType="INTEGER" property="className" />
+    <result column="class_id" jdbcType="INTEGER" property="classId" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="sgtc" jdbcType="DECIMAL" property="sgtc" />
+    <result column="sz" jdbcType="INTEGER" property="sz" />
+    <result column="zq" jdbcType="DECIMAL" property="zq" />
+    <result column="construction" jdbcType="VARCHAR" property="construction" />
+    <result column="completion" jdbcType="VARCHAR" property="completion" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="del" jdbcType="INTEGER" property="del" />
+    
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, serve_name, class_id, price, remark,sgtc,sz,zq,construction,completion,shop_id,del
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from serve
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByName" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from serve
+    where serve_name =  #{serveName,jdbcType=VARCHAR} and  shop_id = #{shopId,jdbcType=INTEGER} and del=0
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from serve
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.serve.model.Serve">
+    insert into serve (id, serve_name, class_id, 
+      price, remark,sgtc,sz,zq,construction,completion)
+    values (#{id,jdbcType=INTEGER}, #{serveName,jdbcType=VARCHAR}, #{classId,jdbcType=INTEGER},
+      #{price,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR},#{sgtc,jdbcType=DECIMAL},#{sz,jdbcType=INTEGER},#{zq,jdbcType=DECIMAL},#{construction,jdbcType=VARCHAR},#{completion,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.serve.model.Serve">
+    insert into serve
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="serveName != null">
+        serve_name,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="sgtc != null">
+        sgtc,
+      </if>
+      <if test="sz != null">
+        sz,
+      </if>
+      <if test="zq != null">
+        zq,
+      </if>
+      <if test="construction != null">
+        construction,
+      </if>
+      <if test="completion != null">
+        completion,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="del != null">
+        del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="serveName != null">
+        #{serveName,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sgtc != null">
+        #{sgtc,jdbcType=DECIMAL},
+      </if>
+      <if test="sz != null">
+        #{sz,jdbcType=INTEGER},
+      </if>
+      <if test="zq != null">
+        #{zq,jdbcType=DECIMAL},
+      </if>
+      <if test="construction != null">
+        #{construction,jdbcType=VARCHAR},
+      </if>
+      <if test="completion != null">
+        #{completion,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="del != null">
+        #{del,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.serve.model.Serve">
+    update serve
+    <set>
+      <if test="serveName != null">
+        serve_name = #{serveName,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        class_id = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sgtc != null">
+        sgtc=#{sgtc,jdbcType=DECIMAL},
+      </if>
+      <if test="sz != null">
+        sz=#{sz,jdbcType=INTEGER},
+      </if>
+      <if test="zq != null">
+        zq=#{zq,jdbcType=DECIMAL},
+      </if>
+      <if test="construction != null">
+        construction=#{construction,jdbcType=VARCHAR},
+      </if>
+      <if test="completion != null">
+        completion=#{completion,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="del != null">
+        del=#{del,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.serve.model.Serve">
+    update serve
+    set serve_name = #{serveName,jdbcType=VARCHAR},
+      class_id = #{classId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      sgtc=#{sgtc,jdbcType=DECIMAL},
+      sz=#{sz,jdbcType=INTEGER},
+      zq=#{zq,jdbcType=DECIMAL},
+      construction=#{construction,jdbcType=VARCHAR},
+      completion=#{completion,jdbcType=VARCHAR},
+      del=#{del,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    
+    <select id="getServeList" parameterType="com.kyx.biz.serve.model.Serve" resultMap="BaseResultMap">
+    select s.*,c.class_name from serve s inner join serve_class c on s.class_id=c.id where s.del=0  
+    <if test="shopId != null">
+        and s.shop_id=#{shopId} 
+    </if>
+    <if test="serveName != null and serveName != ''">
+        and s.serve_name like   CONCAT('%',#{serveName},'%')
+    </if> 	
+    order by s.class_id 
+  </select>
+  
+  
+      <select id="getServeCustomPrice" parameterType="com.kyx.biz.serve.model.Serve" resultMap="BaseResultMap">
+    select p.*,cp.price as custPrice from serve p left join custom_price   cp on cp.item_id = p.id and cp.kind = 1 and cp.cust_type = #{custType} 
+    where p.del=0  
+    <if test="shopId != null">
+        and p.shop_id=#{shopId} 
+    </if>
+    <if test="serveName != null and serveName != ''">
+        and p.serve_name like   CONCAT('%',#{serveName},'%')
+    </if> 
+    </select>
+  
+  <select id="getByClassId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(*) from serve
+    where class_id = #{classId}
+  </select>
+  <select id="getListByClassId" parameterType="com.kyx.biz.serve.model.Serve" resultMap="BaseResultMap">
+    select s.*,us.user_id from serve s left join (select * from user_skills u where u.user_id = #{userId}) us on us.serve_id=s.id where s.class_id = #{classId} and s.del=0 
+  </select>
+  <select id="getCountByServe" parameterType="com.kyx.biz.serve.model.Serve" resultType="java.lang.Integer">
+    select count(*) from serve where serve_name = #{serveName} and shop_id=#{shopId} and del=0
+  </select>
+  <select id="getServesByClassId" parameterType="com.kyx.biz.serve.model.Serve" resultMap="BaseResultMap">
+    select * from  serve where class_id = #{classId} and shop_id=#{shopId} and del=0
+  </select>
+</mapper>

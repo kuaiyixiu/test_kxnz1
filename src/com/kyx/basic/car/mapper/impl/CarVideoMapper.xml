@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.basic.car.mapper.CarVideoMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.basic.car.model.CarVideo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="dir_url" jdbcType="VARCHAR" property="dirUrl" />
+    <result column="cover_url" jdbcType="VARCHAR" property="coverUrl" />
+    <result column="class_id" jdbcType="INTEGER" property="classId" />
+    <result column="model_id" jdbcType="INTEGER" property="modelId" />
+    <result column="browse_num" jdbcType="INTEGER" property="browseNum" />
+    <result column="collect_num" jdbcType="INTEGER" property="collectNum" />
+    <result column="author" jdbcType="INTEGER" property="author" />
+    <result column="member" jdbcType="INTEGER" property="member" />
+    <result column="charge" jdbcType="DECIMAL" property="charge" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap id="InfoResultMap" type="com.kyx.basic.car.model.CarVideo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="dir_url" jdbcType="VARCHAR" property="dirUrl" />
+    <result column="cover_url" jdbcType="VARCHAR" property="coverUrl" />
+    <result column="class_id" jdbcType="INTEGER" property="classId" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="model_id" jdbcType="INTEGER" property="modelId" />
+    <result column="browse_num" jdbcType="INTEGER" property="browseNum" />
+    <result column="collect_num" jdbcType="INTEGER" property="collectNum" />
+    <result column="author" jdbcType="INTEGER" property="author" />
+    <result column="author_name" jdbcType="VARCHAR" property="authorName" />
+    <result column="member" jdbcType="INTEGER" property="member" />
+    <result column="charge" jdbcType="DECIMAL" property="charge" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, `describe`, dir_url, cover_url, class_id, model_id, browse_num, collect_num, 
+    author, `member`, charge, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from car_video
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryCarVideoBySeriesId" resultMap="InfoResultMap">
+    select cv.id, cv.title, cv.describe, cv.dir_url, cv.cover_url, cv.class_id, cv.model_id, cv.browse_num, cv.collect_num,
+      cv.author, cv.member, cv.charge, cv.create_time, u.user_name author_name, cvc.name class_name
+    from car_video cv left join user u on cv.author = u.id
+      left join car_video_class cvc on cv.class_id = cvc.id
+    where class_id = #{classId, jdbcType=INTEGER}
+      <if test="modelId != null">
+        and model_id = #{modelId, jdbcType=INTEGER}
+      </if>
+      <if test="modelId == null and seriesId != null">
+        and model_id in (select id from car_model where series_id = #{seriesId, jdbcType=INTEGER})
+      </if>
+  </select>
+    <select id="queryCarVideoById" resultMap="InfoResultMap">
+      select cv.id, cv.title, cv.describe, cv.dir_url, cv.cover_url, cv.class_id, cv.model_id, cv.browse_num, cv.collect_num,
+      cv.author, cv.member, cv.charge, cv.create_time, u.user_name author_name, cvc.name class_name
+      from car_video cv left join user u on cv.author = u.id
+      left join car_video_class cvc on cv.class_id = cvc.id
+      where cv.id = #{id, jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from car_video
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.kyx.basic.car.model.CarVideo" useGeneratedKeys="true">
+    insert into car_video (title, `describe`, dir_url, 
+      cover_url, class_id, model_id, 
+      browse_num, collect_num, author, 
+      `member`, charge, create_time
+      )
+    values (#{title,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, #{dirUrl,jdbcType=VARCHAR}, 
+      #{coverUrl,jdbcType=VARCHAR}, #{classId,jdbcType=INTEGER}, #{modelId,jdbcType=INTEGER}, 
+      #{browseNum,jdbcType=INTEGER}, #{collectNum,jdbcType=INTEGER}, #{author,jdbcType=INTEGER}, 
+      #{member,jdbcType=INTEGER}, #{charge,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.kyx.basic.car.model.CarVideo" useGeneratedKeys="true">
+    insert into car_video
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="describe != null">
+        `describe`,
+      </if>
+      <if test="dirUrl != null">
+        dir_url,
+      </if>
+      <if test="coverUrl != null">
+        cover_url,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+      <if test="modelId != null">
+        model_id,
+      </if>
+      <if test="browseNum != null">
+        browse_num,
+      </if>
+      <if test="collectNum != null">
+        collect_num,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="member != null">
+        `member`,
+      </if>
+      <if test="charge != null">
+        charge,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="dirUrl != null">
+        #{dirUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="coverUrl != null">
+        #{coverUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null">
+        #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="browseNum != null">
+        #{browseNum,jdbcType=INTEGER},
+      </if>
+      <if test="collectNum != null">
+        #{collectNum,jdbcType=INTEGER},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=INTEGER},
+      </if>
+      <if test="member != null">
+        #{member,jdbcType=INTEGER},
+      </if>
+      <if test="charge != null">
+        #{charge,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.basic.car.model.CarVideo">
+    update car_video
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        `describe` = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="dirUrl != null">
+        dir_url = #{dirUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="coverUrl != null">
+        cover_url = #{coverUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        class_id = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null">
+        model_id = #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="browseNum != null">
+        browse_num = #{browseNum,jdbcType=INTEGER},
+      </if>
+      <if test="collectNum != null">
+        collect_num = #{collectNum,jdbcType=INTEGER},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=INTEGER},
+      </if>
+      <if test="member != null">
+        `member` = #{member,jdbcType=INTEGER},
+      </if>
+      <if test="charge != null">
+        charge = #{charge,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.basic.car.model.CarVideo">
+    update car_video
+    set title = #{title,jdbcType=VARCHAR},
+      `describe` = #{describe,jdbcType=VARCHAR},
+      dir_url = #{dirUrl,jdbcType=VARCHAR},
+      cover_url = #{coverUrl,jdbcType=VARCHAR},
+      class_id = #{classId,jdbcType=INTEGER},
+      model_id = #{modelId,jdbcType=INTEGER},
+      browse_num = #{browseNum,jdbcType=INTEGER},
+      collect_num = #{collectNum,jdbcType=INTEGER},
+      author = #{author,jdbcType=INTEGER},
+      `member` = #{member,jdbcType=INTEGER},
+      charge = #{charge,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.workflow.mapper.WorkflowNodeMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.workflow.model.WorkflowNode">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="template_id" jdbcType="INTEGER" property="templateId" />
+    <result column="iidno" jdbcType="INTEGER" property="iidno" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="pre_node" jdbcType="INTEGER" property="preNode" />
+    <result column="next_node" jdbcType="INTEGER" property="nextNode" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, template_id, iidno, name, type, pre_node, next_node, remark, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from oa_workflow_node
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from oa_workflow_node
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByTemplateId" parameterType="java.lang.Integer">
+    delete from oa_workflow_node   where template_id = #{templateId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.workflow.model.WorkflowNode">
+    insert into oa_workflow_node (id, template_id, iidno, 
+      name, type, pre_node, 
+      next_node, remark, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{templateId,jdbcType=INTEGER}, #{iidno,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{preNode,jdbcType=INTEGER}, 
+      #{nextNode,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.workflow.model.WorkflowNode"   useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into oa_workflow_node
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="templateId != null">
+        template_id,
+      </if>
+      <if test="iidno != null">
+        iidno,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="preNode != null">
+        pre_node,
+      </if>
+      <if test="nextNode != null">
+        next_node,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+        create_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="templateId != null">
+        #{templateId,jdbcType=INTEGER},
+      </if>
+      <if test="iidno != null">
+        #{iidno,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="preNode != null">
+        #{preNode,jdbcType=INTEGER},
+      </if>
+      <if test="nextNode != null">
+        #{nextNode,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.workflow.model.WorkflowNode">
+    update oa_workflow_node
+    <set>
+      <if test="templateId != null">
+        template_id = #{templateId,jdbcType=INTEGER},
+      </if>
+      <if test="iidno != null">
+        iidno = #{iidno,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="preNode != null">
+        pre_node = #{preNode,jdbcType=INTEGER},
+      </if>
+      <if test="nextNode != null">
+        next_node = #{nextNode,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.workflow.model.WorkflowNode">
+    update oa_workflow_node
+    set template_id = #{templateId,jdbcType=INTEGER},
+      iidno = #{iidno,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      pre_node = #{preNode,jdbcType=INTEGER},
+      next_node = #{nextNode,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+      <select id="getList" parameterType="com.kyx.biz.workflow.model.WorkflowNode" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    	from oa_workflow_node   where 1=1
+   	<if test="templateId != null">
+        and template_id = #{templateId,jdbcType=INTEGER}
+      </if>
+      <if test="name != null and name != ''">
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+     order by iidno 
+  </select>
+      <select id="getListByTemplateId" parameterType="com.kyx.biz.workflow.model.WorkflowNode" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    	from oa_workflow_node   where  template_id = #{templateId,jdbcType=INTEGER}   order by iidno 
+  </select>
+  
+   <select id="selectCountByPreNode"  resultType="java.lang.Integer">
+    select 
+    	count(*)
+    	from oa_workflow_node   where  pre_node = #{preNodeId,jdbcType=INTEGER} 
+    	<if test="nodeId != null">
+	    	and id &lt;&gt; #{nodeId,jdbcType=INTEGER} 
+    	</if>
+    	
+  </select>
+  
+   <select id="selectCountByNextNode"  resultType="java.lang.Integer">
+    select 
+    	count(*)
+    	from oa_workflow_node   where  next_node = #{nextNodeId,jdbcType=INTEGER}
+    	<if test="nodeId != null">
+    	 and id &lt;&gt; #{nodeId,jdbcType=INTEGER} 
+    	</if>
+  </select>
+
+	<update id="clearPreNode" parameterType="java.lang.Integer">
+		update oa_workflow_node set pre_node = null where pre_node = #{preNodeId,jdbcType=INTEGER}
+	</update>
+	<update id="clearNextNode" parameterType="java.lang.Integer">
+		update oa_workflow_node set next_node = null where next_node = #{nextNodeId,jdbcType=INTEGER}
+	</update>
+	
+	<update id="setPreNode" parameterType="java.lang.Integer">
+		update oa_workflow_node set pre_node = #{nodeId,jdbcType=INTEGER} where id = #{preNodeId,jdbcType=INTEGER}
+	</update>
+	<update id="setNextNode" parameterType="java.lang.Integer">
+		update oa_workflow_node set next_node = #{nodeId,jdbcType=INTEGER} where id = #{nextNodeId,jdbcType=INTEGER}
+	</update>
+	
+	
+   <select id="selectFirstNodeByTemplateId"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    	 select t1.* from oa_workflow_node t1 where  t1.iidno= (select min(t2.iidno) FROM oa_workflow_node t2 where template_id = #{templateId,jdbcType=INTEGER} )
+    	 and template_id = #{templateId,jdbcType=INTEGER}
+  </select>
+  
+      <select id="getMaxIidnoByTemplateId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select ifnull(max(iidno),0) from oa_workflow_node  where  template_id = #{templateId,jdbcType=INTEGER}
+  </select>
+</mapper>

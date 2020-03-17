@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.product.mapper.ProductMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.product.model.Product">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_type" jdbcType="VARCHAR" property="productType" />
+    <result column="class_id" jdbcType="INTEGER" property="classId" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="car_type" jdbcType="VARCHAR" property="carType" />
+    <result column="alarm_quantity" jdbcType="INTEGER" property="alarmQuantity" />
+    <result column="qr_code" jdbcType="VARCHAR" property="qrCode" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="del" jdbcType="INTEGER" property="del" />
+    <result column="outqty" jdbcType="INTEGER" property="outQty" />
+    <result column="outamt" jdbcType="DECIMAL" property="outAmt" />
+    <result column="inqty" jdbcType="INTEGER" property="inQty" />
+    <result column="inamt" jdbcType="DECIMAL" property="inAmt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, product_name, product_type, class_id, price, remark, car_type, alarm_quantity, 
+    qr_code,shop_id,quantity,amount,del
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where product_name =  #{productName,jdbcType=VARCHAR} and  shop_id = #{shopId,jdbcType=INTEGER} and del=0
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.kyx.biz.product.model.Product" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="productType != null">
+        product_type,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="carType != null">
+        car_type,
+      </if>
+      <if test="alarmQuantity != null">
+        alarm_quantity,
+      </if>
+      <if test="qrCode != null">
+        qr_code,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+       <if test="amount != null">
+        amount,
+      </if>
+      <if test="del != null">
+        del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null">
+        #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="carType != null">
+        #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmQuantity != null">
+        #{alarmQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="qrCode != null">
+        #{qrCode,jdbcType=VARCHAR},
+      </if>
+       <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+       <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="del != null">
+        #{del,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.product.model.Product">
+    update product
+    <set>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null">
+        product_type = #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        class_id = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="carType != null">
+        car_type = #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmQuantity != null">
+        alarm_quantity = #{alarmQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="qrCode != null">
+        qr_code = #{qrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        quantity=#{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="subQuantity != null">
+        quantity = quantity -  #{subQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="addQuantity != null">
+        quantity = quantity + #{addQuantity,jdbcType=INTEGER},
+      </if>
+       <if test="amount != null">
+        amount=#{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="del != null">
+        del=#{del,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="getProductList" parameterType="com.kyx.biz.product.model.Product" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from product   where del=0  
+    <if test="shopId != null">
+        and shop_id=#{shopId} 
+    </if>
+    <if test="qrCode != null">
+        and qr_code=#{qrCode} 
+    </if>
+    <if test="classId != null">
+        and class_id=#{classId} 
+    </if>
+    <if test="productName != null and productName != ''">
+        and product_name like  CONCAT('%',#{productName},'%')
+    </if> 	
+    </select>
+    
+    <select id="getProductCustomPrice" parameterType="com.kyx.biz.product.model.Product" resultMap="BaseResultMap">
+    select p.*,cp.price as custPrice from product p left join custom_price   cp on cp.item_id = p.id and cp.kind = 2 and cp.cust_type = #{custType} 
+    where p.del=0 
+    <if test="shopId != null">
+        and p.shop_id=#{shopId} 
+    </if>
+    <if test="productName != null and productName != ''">
+        and p.product_name like  CONCAT('%',#{productName},'%')
+    </if> 	
+    </select>
+    
+    
+  <select id="getByClassId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(*) from product
+    where class_id = #{classId} and del=0 
+  </select>
+  
+  <select id="getInfo" parameterType="com.kyx.biz.product.model.Product" resultMap="BaseResultMap">
+    select p.*,c.class_name as class_name from product p left join product_class c on p.class_id=c.id 
+    where p.del=0 
+    <if test="shopId != null">
+       and p.shop_id = #{shopId}
+    </if>
+    <if test="classId != null">
+       and p.class_id = #{classId}
+    </if>
+    <if test="queryType != null and queryType==1">
+       and p.quantity &gt; 0
+    </if>
+    <if test="productName != null and productName !=''">
+      and p.product_name like CONCAT(CONCAT('%', #{productName}), '%')
+    </if>
+    <if test="queryType != null and queryType==1">
+       and p.quantity &gt; 0
+    </if>
+  </select>
+  <select id="getByName" parameterType="com.kyx.biz.product.model.Product" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where del=0 
+    <if test="shopId != null">
+       and shop_id = #{shopId}
+    </if>
+    <if test="productName != null and productName !=''">
+      and product_name = #{productName}
+    </if>
+  </select>
+  <select id="getArertCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(*) from product where alarm_quantity  &gt; 0 and quantity &lt;= alarm_quantity and del=0 
+  </select>
+  <select id="getPreviewList" parameterType="com.kyx.biz.product.model.Product" resultMap="BaseResultMap">
+    select  p.*,c.class_name as class_name from product p left join product_class c on p.class_id=c.id 
+    where p.alarm_quantity  &gt; 0 and p.quantity &lt;= p.alarm_quantity and p.del=0 
+    <if test="shopId != null">
+       and p.shop_id = #{shopId}
+    </if>
+    <if test="productName != null and productName !=''">
+      and p.product_name like CONCAT(CONCAT('%', #{productName}), '%')
+    </if>
+  </select>
+  <select id="queryProductRep" parameterType="com.kyx.biz.product.model.Product" resultMap="BaseResultMap">
+    select p.product_name,p.product_type,p.quantity,i.inqty,i.inamt,o.outqty,o.outamt from product p LEFT JOIN 
+    (select count(count) as inqty,product_id,sum(change_amt) as inamt from product_change where type in (1,5,6,8,10) 
+    <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+    and (change_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+    </if>
+    GROUP BY product_id) i ON p.id=i.product_id LEFT JOIN 
+    (select count(count) as outqty,product_id,sum(change_amt) as outamt from product_change where type in (2,3,4,7,11) 
+    <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+    and (change_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+    </if>
+    GROUP BY product_id) o ON p.id=o.product_id where 1=1 
+    and (i.inqty &gt; 0 or o.outqty &gt; 0) 
+    <if test="shopId != null">
+       and p.shop_id = #{shopId}
+    </if>
+	<if test ="keyword != null and keyword != ''">
+		and (p.product_name like CONCAT('%', #{keyword}, '%')
+		or p.product_type like CONCAT('%', #{keyword}, '%')
+		)
+	</if>
+  </select>
+</mapper>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.wechat.mapper.WechatCustomerMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.wechat.model.WechatCustomer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+    <result column="last_login" jdbcType="INTEGER" property="lastLogin" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, open_id, shop_id, card_no, last_login, add_time, app_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wechat_customer_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wechat_customer_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.wechat.model.WechatCustomer">
+    insert into wechat_customer_info (id, open_id, shop_id, 
+      card_no, last_login, add_time, 
+      app_id)
+    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{shopId,jdbcType=INTEGER}, 
+      #{cardNo,jdbcType=VARCHAR}, #{lastLogin,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{appId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.wechat.model.WechatCustomer">
+    insert into wechat_customer_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="cardNo != null">
+        card_no,
+      </if>
+      <if test="lastLogin != null">
+        last_login,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="cardNo != null">
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLogin != null">
+        #{lastLogin,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.wechat.model.WechatCustomer">
+    update wechat_customer_info
+    <set>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="cardNo != null">
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLogin != null">
+        last_login = #{lastLogin,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.wechat.model.WechatCustomer">
+    update wechat_customer_info
+    set open_id = #{openId,jdbcType=VARCHAR},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      last_login = #{lastLogin,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      app_id = #{appId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getByAppidAndOpenId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wechat_customer_info
+    where open_id = #{openId} and app_id=#{appId} and last_login=1
+  </select>
+  
+  <select id="selectByCardNo" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wechat_customer_info
+    where card_no = #{cardNo,jdbcType=VARCHAR}
+    order by add_time desc
+    LIMIT 1
+  </select>
+</mapper>

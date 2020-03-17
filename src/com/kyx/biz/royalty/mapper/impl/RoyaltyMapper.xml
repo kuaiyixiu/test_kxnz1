@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.royalty.mapper.RoyaltyMapper">
+	<resultMap id="BaseResultMap" type="com.kyx.biz.royalty.model.Royalty">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="kind" jdbcType="VARCHAR" property="kind" />
+		<result column="royalty_id" jdbcType="INTEGER" property="royaltyId" />
+		<result column="royalty_type" jdbcType="VARCHAR" property="royaltyType" />
+		<result column="royalty_count" jdbcType="DECIMAL" property="royaltyCount" />
+		<result column="royalty_name" jdbcType="DECIMAL" property="royaltyName" />
+		<result column="shop_id" jdbcType="INTEGER" property="shopId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, kind, royalty_id, royalty_type, royalty_count,shop_id
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from royalty
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from royalty
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.kyx.biz.royalty.model.Royalty">
+		insert into royalty (id, kind, royalty_id,
+		royalty_type, royalty_count)
+		values (#{id,jdbcType=INTEGER}, #{kind,jdbcType=VARCHAR},
+		#{royaltyId,jdbcType=INTEGER},
+		#{royaltyType,jdbcType=VARCHAR}, #{royaltyCount,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective" parameterType="com.kyx.biz.royalty.model.Royalty">
+		insert into royalty
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="kind != null">
+				kind,
+			</if>
+			<if test="royaltyId != null">
+				royalty_id,
+			</if>
+			<if test="royaltyType != null">
+				royalty_type,
+			</if>
+			<if test="royaltyCount != null">
+				royalty_count,
+			</if>
+			<if test="shopId != null">
+				shop_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="kind != null">
+				#{kind,jdbcType=VARCHAR},
+			</if>
+			<if test="royaltyId != null">
+				#{royaltyId,jdbcType=INTEGER},
+			</if>
+			<if test="royaltyType != null">
+				#{royaltyType,jdbcType=VARCHAR},
+			</if>
+			<if test="royaltyCount != null">
+				#{royaltyCount,jdbcType=DECIMAL},
+			</if>
+			<if test="shopId != null">
+				#{shopId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.royalty.model.Royalty">
+		update royalty
+		<set>
+			<if test="kind != null">
+				kind = #{kind,jdbcType=VARCHAR},
+			</if>
+			<if test="royaltyId != null">
+				royalty_id = #{royaltyId,jdbcType=INTEGER},
+			</if>
+			<if test="royaltyType != null">
+				royalty_type = #{royaltyType,jdbcType=VARCHAR},
+			</if>
+			<if test="royaltyCount != null">
+				royalty_count = #{royaltyCount,jdbcType=DECIMAL},
+			</if>
+			<if test="shopId != null">
+				shop_id=#{shopId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.kyx.biz.royalty.model.Royalty">
+		update royalty
+		set kind = #{kind,jdbcType=VARCHAR},
+		royalty_id = #{royaltyId,jdbcType=INTEGER},
+		royalty_type = #{royaltyType,jdbcType=VARCHAR},
+		shop_id=#{shopId,jdbcType=INTEGER},
+		royalty_count = #{royaltyCount,jdbcType=DECIMAL}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="getInfo" parameterType="com.kyx.biz.royalty.model.Royalty"
+		resultMap="BaseResultMap">
+		select s.serve_name as royalty_name,s.id as royalty_id,ro.* from serve
+		s left join (select r.* from royalty r where r.kind=#{kind} ) ro on
+		s.id=ro.royalty_id
+		where 1=1
+		<if test="shopId != null">
+			and s.shop_id=#{shopId}
+		</if>
+		<if test="royaltyName != null and royaltyName !=''">
+			and s.serve_name like CONCAT(CONCAT('%', #{royaltyName}), '%')
+		</if>
+	</select>
+	<delete id="deleteByShopId" parameterType="java.lang.Integer">
+		delete from royalty
+		where 1=1
+		<if test="shopId != null">
+			and shop_id=#{shopId}
+		</if>
+		<if test="kind != null">
+			and kind=#{kind}
+		</if>
+		<if test="royaltyId != null">
+			and royalty_id=#{royaltyId}
+		</if>
+	</delete>
+	<insert id="insertBatches">
+		insert into royalty (kind,
+		royalty_id,royalty_type,shop_id,royalty_count) values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.kind},#{item.royaltyId},#{item.royaltyType},#{item.shopId},#{item.royaltyCount})
+		</foreach>
+	</insert>
+	<select id="getByRoyaltyId" parameterType="com.kyx.biz.royalty.model.Royalty"
+		resultMap="BaseResultMap">
+		select * from royalty where 1=1
+		<if test="shopId != null">
+			and shop_id=#{shopId}
+		</if>
+		<if test="royaltyId != null">
+			and royalty_id=#{royaltyId}
+		</if>
+		<if test="kind != null">
+			and kind=#{kind}
+		</if>
+	</select>
+	<select id="getProInfo" parameterType="com.kyx.biz.royalty.model.Royalty"
+		resultMap="BaseResultMap">
+		select s.product_name as royalty_name,s.id as royalty_id,ro.* from
+		product s left join (select r.* from royalty r where r.kind=#{kind} )
+		ro on s.id=ro.royalty_id
+		where 1=1
+		<if test="shopId != null">
+			and s.shop_id=#{shopId}
+		</if>
+		<if test="royaltyName != null and royaltyName !=''">
+			and s.product_name like CONCAT(CONCAT('%', #{royaltyName}), '%')
+		</if>
+	</select>
+	<delete id="doRemoveeMore" parameterType="java.util.HashMap">
+		delete from royalty where royalty_id in
+		<foreach collection="list" item="arr" index="no" open="("
+			separator="," close=")">
+			#{arr}
+		</foreach>
+		<if test="shopId != null">
+			and shop_id=#{shopId}
+		</if>
+		<if test="kind != null">
+			and kind=#{kind}
+		</if>
+	</delete>
+	
+	<select id="getList" parameterType="com.kyx.biz.royalty.model.Royalty"	resultMap="BaseResultMap">
+		select  <include refid="Base_Column_List" /> from royalty where 1 = 1 
+		<if test="shopId != null">
+			and shop_id = #{shopId}
+		</if>
+		<if test="kind != null and kind != '' ">
+			<choose>
+				<when test="kind == '12' ">
+					and kind in (1,2)
+				</when>
+				<otherwise>
+					and kind = #{kind}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="royaltyId != null">
+			and royalty_id = #{royaltyId}
+		</if>
+	</select>
+	
+</mapper>

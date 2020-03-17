@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.basic.shops.mapper.ShopsMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.basic.shops.model.Shops">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
+    <result column="shop_address" jdbcType="VARCHAR" property="shopAddress" />
+    <result column="shop_tel" jdbcType="VARCHAR" property="shopTel" />
+    <result column="account_status" jdbcType="VARCHAR" property="accountStatus" />
+    <result column="shop_phone" jdbcType="VARCHAR" property="shopPhone" />
+    <result column="fa_title" jdbcType="VARCHAR" property="faTitle" />
+    <result column="fax" jdbcType="VARCHAR" property="fax" />
+    <result column="account_end" jdbcType="TIMESTAMP" property="accountEnd" />
+    <result column="boss_id" jdbcType="INTEGER" property="bossId" />
+    <result column="jdbc_driverclassname" jdbcType="VARCHAR" property="jdbcDriverclassname" />
+    <result column="jdbc_url" jdbcType="VARCHAR" property="jdbcUrl" />
+    <result column="jdbc_username" jdbcType="VARCHAR" property="jdbcUsername" />
+    <result column="jdbc_password" jdbcType="VARCHAR" property="jdbcPassword" />
+    <result column="shop_key" jdbcType="VARCHAR" property="shopKey" />
+    <result column="db_name" jdbcType="VARCHAR" property="dbName" />
+    <result column="user_count" jdbcType="INTEGER" property="userCount" />
+    <result column="wechat_id" jdbcType="INTEGER" property="wechatId" />
+    <result column="creat_user" jdbcType="INTEGER" property="creatUser" />
+    <result column="manager_user" jdbcType="INTEGER" property="managerUser" />
+    <result column="sms_amount" jdbcType="INTEGER" property="smsAmount" />
+    <result column="open_night_serve_flag" jdbcType="INTEGER" property="openNightServeFlag" />
+	<result column="user_realname" jdbcType="VARCHAR" property="userRealname" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, shop_name, shop_address, shop_tel, account_status, shop_phone, fa_title, fax, 
+    account_end, boss_id, jdbc_driverclassname, jdbc_url, jdbc_username, jdbc_password, 
+    shop_key, db_name, user_count, wechat_id, creat_user, manager_user, sms_amount, open_night_serve_flag
+  </sql>
+  <select id="selectByExample" parameterType="com.kyx.basic.shops.model.ShopsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from shops_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shops_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shops_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kyx.basic.shops.model.ShopsExample">
+    delete from shops_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kyx.basic.shops.model.Shops">
+    insert into shops_info (id, shop_name, shop_address, 
+      shop_tel, account_status, shop_phone, 
+      fa_title, fax, account_end, 
+      boss_id, jdbc_driverclassname, jdbc_url, 
+      jdbc_username, jdbc_password, shop_key, 
+      db_name, user_count, wechat_id, 
+      creat_user, manager_user, sms_amount, 
+      open_night_serve_flag)
+    values (#{id,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, #{shopAddress,jdbcType=VARCHAR}, 
+      #{shopTel,jdbcType=VARCHAR}, #{accountStatus,jdbcType=VARCHAR}, #{shopPhone,jdbcType=VARCHAR}, 
+      #{faTitle,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{accountEnd,jdbcType=TIMESTAMP}, 
+      #{bossId,jdbcType=INTEGER}, #{jdbcDriverclassname,jdbcType=VARCHAR}, #{jdbcUrl,jdbcType=VARCHAR}, 
+      #{jdbcUsername,jdbcType=VARCHAR}, #{jdbcPassword,jdbcType=VARCHAR}, #{shopKey,jdbcType=VARCHAR}, 
+      #{dbName,jdbcType=VARCHAR}, #{userCount,jdbcType=INTEGER}, #{wechatId,jdbcType=INTEGER}, 
+      #{creatUser,jdbcType=INTEGER}, #{managerUser,jdbcType=INTEGER}, #{smsAmount,jdbcType=INTEGER}, 
+      #{openNightServeFlag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.basic.shops.model.Shops" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into shops_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="shopName != null">
+        shop_name,
+      </if>
+      <if test="shopAddress != null">
+        shop_address,
+      </if>
+      <if test="shopTel != null">
+        shop_tel,
+      </if>
+      <if test="accountStatus != null">
+        account_status,
+      </if>
+      <if test="shopPhone != null">
+        shop_phone,
+      </if>
+      <if test="faTitle != null">
+        fa_title,
+      </if>
+      <if test="fax != null">
+        fax,
+      </if>
+      <if test="accountEnd != null">
+        account_end,
+      </if>
+      <if test="bossId != null">
+        boss_id,
+      </if>
+      <if test="jdbcDriverclassname != null">
+        jdbc_driverclassname,
+      </if>
+      <if test="jdbcUrl != null">
+        jdbc_url,
+      </if>
+      <if test="jdbcUsername != null">
+        jdbc_username,
+      </if>
+      <if test="jdbcPassword != null">
+        jdbc_password,
+      </if>
+      <if test="shopKey != null">
+        shop_key,
+      </if>
+      <if test="dbName != null">
+        db_name,
+      </if>
+      <if test="userCount != null">
+        user_count,
+      </if>
+      <if test="wechatId != null">
+        wechat_id,
+      </if>
+      <if test="creatUser != null">
+        creat_user,
+      </if>
+      <if test="managerUser != null">
+        manager_user,
+      </if>
+      <if test="smsAmount != null">
+        sms_amount,
+      </if>
+      <if test="openNightServeFlag != null">
+        open_night_serve_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null">
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopAddress != null">
+        #{shopAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="shopTel != null">
+        #{shopTel,jdbcType=VARCHAR},
+      </if>
+      <if test="accountStatus != null">
+        #{accountStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="shopPhone != null">
+        #{shopPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="faTitle != null">
+        #{faTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null">
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="accountEnd != null">
+        #{accountEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bossId != null">
+        #{bossId,jdbcType=INTEGER},
+      </if>
+      <if test="jdbcDriverclassname != null">
+        #{jdbcDriverclassname,jdbcType=VARCHAR},
+      </if>
+      <if test="jdbcUrl != null">
+        #{jdbcUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="jdbcUsername != null">
+        #{jdbcUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="jdbcPassword != null">
+        #{jdbcPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="shopKey != null">
+        #{shopKey,jdbcType=VARCHAR},
+      </if>
+      <if test="dbName != null">
+        #{dbName,jdbcType=VARCHAR},
+      </if>
+      <if test="userCount != null">
+        #{userCount,jdbcType=INTEGER},
+      </if>
+      <if test="wechatId != null">
+        #{wechatId,jdbcType=INTEGER},
+      </if>
+      <if test="creatUser != null">
+        #{creatUser,jdbcType=INTEGER},
+      </if>
+      <if test="managerUser != null">
+        #{managerUser,jdbcType=INTEGER},
+      </if>
+      <if test="smsAmount != null">
+        #{smsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="openNightServeFlag != null">
+        #{openNightServeFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kyx.basic.shops.model.ShopsExample" resultType="java.lang.Long">
+    select count(*) from shops_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update shops_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopName != null">
+        shop_name = #{record.shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopAddress != null">
+        shop_address = #{record.shopAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopTel != null">
+        shop_tel = #{record.shopTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountStatus != null">
+        account_status = #{record.accountStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopPhone != null">
+        shop_phone = #{record.shopPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.faTitle != null">
+        fa_title = #{record.faTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fax != null">
+        fax = #{record.fax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountEnd != null">
+        account_end = #{record.accountEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bossId != null">
+        boss_id = #{record.bossId,jdbcType=INTEGER},
+      </if>
+      <if test="record.jdbcDriverclassname != null">
+        jdbc_driverclassname = #{record.jdbcDriverclassname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jdbcUrl != null">
+        jdbc_url = #{record.jdbcUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jdbcUsername != null">
+        jdbc_username = #{record.jdbcUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jdbcPassword != null">
+        jdbc_password = #{record.jdbcPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopKey != null">
+        shop_key = #{record.shopKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dbName != null">
+        db_name = #{record.dbName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userCount != null">
+        user_count = #{record.userCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.wechatId != null">
+        wechat_id = #{record.wechatId,jdbcType=INTEGER},
+      </if>
+      <if test="record.creatUser != null">
+        creat_user = #{record.creatUser,jdbcType=INTEGER},
+      </if>
+      <if test="record.managerUser != null">
+        manager_user = #{record.managerUser,jdbcType=INTEGER},
+      </if>
+      <if test="record.smsAmount != null">
+        sms_amount = #{record.smsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.openNightServeFlag != null">
+        open_night_serve_flag = #{record.openNightServeFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update shops_info
+    set id = #{record.id,jdbcType=INTEGER},
+      shop_name = #{record.shopName,jdbcType=VARCHAR},
+      shop_address = #{record.shopAddress,jdbcType=VARCHAR},
+      shop_tel = #{record.shopTel,jdbcType=VARCHAR},
+      account_status = #{record.accountStatus,jdbcType=VARCHAR},
+      shop_phone = #{record.shopPhone,jdbcType=VARCHAR},
+      fa_title = #{record.faTitle,jdbcType=VARCHAR},
+      fax = #{record.fax,jdbcType=VARCHAR},
+      account_end = #{record.accountEnd,jdbcType=TIMESTAMP},
+      boss_id = #{record.bossId,jdbcType=INTEGER},
+      jdbc_driverclassname = #{record.jdbcDriverclassname,jdbcType=VARCHAR},
+      jdbc_url = #{record.jdbcUrl,jdbcType=VARCHAR},
+      jdbc_username = #{record.jdbcUsername,jdbcType=VARCHAR},
+      jdbc_password = #{record.jdbcPassword,jdbcType=VARCHAR},
+      shop_key = #{record.shopKey,jdbcType=VARCHAR},
+      db_name = #{record.dbName,jdbcType=VARCHAR},
+      user_count = #{record.userCount,jdbcType=INTEGER},
+      wechat_id = #{record.wechatId,jdbcType=INTEGER},
+      creat_user = #{record.creatUser,jdbcType=INTEGER},
+      manager_user = #{record.managerUser,jdbcType=INTEGER},
+      sms_amount = #{record.smsAmount,jdbcType=INTEGER},
+      open_night_serve_flag = #{record.openNightServeFlag,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.basic.shops.model.Shops">
+    update shops_info
+    <set>
+      <if test="shopName != null">
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopAddress != null">
+        shop_address = #{shopAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="shopTel != null">
+        shop_tel = #{shopTel,jdbcType=VARCHAR},
+      </if>
+      <if test="accountStatus != null">
+        account_status = #{accountStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="shopPhone != null">
+        shop_phone = #{shopPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="faTitle != null">
+        fa_title = #{faTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null">
+        fax = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="accountEnd != null">
+        account_end = #{accountEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bossId != null">
+        boss_id = #{bossId,jdbcType=INTEGER},
+      </if>
+      <if test="jdbcDriverclassname != null">
+        jdbc_driverclassname = #{jdbcDriverclassname,jdbcType=VARCHAR},
+      </if>
+      <if test="jdbcUrl != null">
+        jdbc_url = #{jdbcUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="jdbcUsername != null">
+        jdbc_username = #{jdbcUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="jdbcPassword != null">
+        jdbc_password = #{jdbcPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="shopKey != null">
+        shop_key = #{shopKey,jdbcType=VARCHAR},
+      </if>
+      <if test="dbName != null">
+        db_name = #{dbName,jdbcType=VARCHAR},
+      </if>
+      <if test="userCount != null">
+        user_count = #{userCount,jdbcType=INTEGER},
+      </if>
+      <if test="wechatId != null">
+        wechat_id = #{wechatId,jdbcType=INTEGER},
+      </if>
+      <if test="creatUser != null">
+        creat_user = #{creatUser,jdbcType=INTEGER},
+      </if>
+      <if test="managerUser != null">
+        manager_user = #{managerUser,jdbcType=INTEGER},
+      </if>
+      <if test="smsAmount != null">
+        sms_amount = #{smsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="openNightServeFlag != null">
+        open_night_serve_flag = #{openNightServeFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.basic.shops.model.Shops">
+    update shops_info
+    set shop_name = #{shopName,jdbcType=VARCHAR},
+      shop_address = #{shopAddress,jdbcType=VARCHAR},
+      shop_tel = #{shopTel,jdbcType=VARCHAR},
+      account_status = #{accountStatus,jdbcType=VARCHAR},
+      shop_phone = #{shopPhone,jdbcType=VARCHAR},
+      fa_title = #{faTitle,jdbcType=VARCHAR},
+      fax = #{fax,jdbcType=VARCHAR},
+      account_end = #{accountEnd,jdbcType=TIMESTAMP},
+      boss_id = #{bossId,jdbcType=INTEGER},
+      jdbc_driverclassname = #{jdbcDriverclassname,jdbcType=VARCHAR},
+      jdbc_url = #{jdbcUrl,jdbcType=VARCHAR},
+      jdbc_username = #{jdbcUsername,jdbcType=VARCHAR},
+      jdbc_password = #{jdbcPassword,jdbcType=VARCHAR},
+      shop_key = #{shopKey,jdbcType=VARCHAR},
+      db_name = #{dbName,jdbcType=VARCHAR},
+      user_count = #{userCount,jdbcType=INTEGER},
+      wechat_id = #{wechatId,jdbcType=INTEGER},
+      creat_user = #{creatUser,jdbcType=INTEGER},
+      manager_user = #{managerUser,jdbcType=INTEGER},
+      sms_amount = #{smsAmount,jdbcType=INTEGER},
+      open_night_serve_flag = #{openNightServeFlag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="getAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shops_info
+    where account_status = '0' or account_status = '1'
+  </select>
+  <select id="getByDbName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shops_info
+    where db_name = #{dbName}
+  </select>
+  <select id="getByShopKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shops_info
+    where shop_key = #{shopKey}
+  </select>
+  
+  <select id="selectShopsByBdName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shops_info
+    where db_name = #{dbName,jdbcType=VARCHAR}
+  </select>
+  <select id="getByWechatId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shops_info
+    where wechat_id = #{wechatId} and id &gt; 1
+  </select>
+  
+  <select id="selectShops" resultMap="BaseResultMap">
+	select t2.user_realname,t2.user_phone,t1.* from shops_info t1
+	INNER JOIN user t2
+	on t1.boss_id = t2.id
+	WHERE t1.id != 1
+	<if test="keyword != null and keyword != ''">
+    	and(t2.user_realname like CONCAT(CONCAT('%', #{keyword}), '%')
+    		or t2.user_phone like CONCAT(CONCAT('%', #{keyword}), '%')
+    	)
+    	and t1.id != 1
+    </if>
+    order by t1.id desc
+  </select>
+  <select id="selectCountByBossId" resultType="java.lang.Integer">
+    select count(*) from shops_info where boss_id = #{bossId}
+  </select>
+  <select id="getShopsInfo" parameterType="com.kyx.basic.shops.model.Shops" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List" />
+	from shops_info
+	WHERE 1=1
+	<if test="shopName != null and shopName != ''">
+    	and shop_name like CONCAT('%', #{shopName}, '%')
+    </if>
+	<if test="bossId != null">
+    	and boss_id =#{bossId}
+    </if>
+    order by id desc
+  </select>
+  
+  <update id="updateShopSmsCount" parameterType="com.kyx.basic.shops.model.Shops">
+    update shops_info
+    <set>
+      <if test="addQuantity != null">
+        sms_amount= sms_amount + #{addQuantity,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <update id="updateShopByBossId" parameterType="com.kyx.basic.shops.model.Shops">
+    update shops_info
+    set wechat_id = #{wechatId,jdbcType=INTEGER}
+    where boss_id = #{bossId,jdbcType=INTEGER}
+  </update>
+ </mapper>

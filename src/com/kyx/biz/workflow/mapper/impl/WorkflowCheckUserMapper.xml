@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.workflow.mapper.WorkflowCheckUserMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.workflow.model.WorkflowCheckUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="instance_node_id" jdbcType="INTEGER" property="instanceNodeId" />
+    <result column="instance_id" jdbcType="INTEGER" property="instanceId" />
+    <result column="opt_user" jdbcType="INTEGER" property="optUser" />
+    <result column="opt_time" jdbcType="TIMESTAMP" property="optTime" />
+    <result column="result" jdbcType="INTEGER" property="result" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, instance_node_id, instance_id, opt_user, opt_time, result, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from oa_workflow_check_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from oa_workflow_check_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.workflow.model.WorkflowCheckUser">
+    insert into oa_workflow_check_user (id, instance_node_id, instance_id, 
+      opt_user, opt_time, result, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{instanceNodeId,jdbcType=INTEGER}, #{instanceId,jdbcType=INTEGER}, 
+      #{optUser,jdbcType=INTEGER}, #{optTime,jdbcType=TIMESTAMP}, #{result,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.workflow.model.WorkflowCheckUser">
+    insert into oa_workflow_check_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="instanceNodeId != null">
+        instance_node_id,
+      </if>
+      <if test="instanceId != null">
+        instance_id,
+      </if>
+      <if test="optUser != null">
+        opt_user,
+      </if>
+      <if test="optTime != null">
+        opt_time,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="instanceNodeId != null">
+        #{instanceNodeId,jdbcType=INTEGER},
+      </if>
+      <if test="instanceId != null">
+        #{instanceId,jdbcType=INTEGER},
+      </if>
+      <if test="optUser != null">
+        #{optUser,jdbcType=INTEGER},
+      </if>
+      <if test="optTime != null">
+        #{optTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.workflow.model.WorkflowCheckUser">
+    update oa_workflow_check_user
+    <set>
+      <if test="instanceNodeId != null">
+        instance_node_id = #{instanceNodeId,jdbcType=INTEGER},
+      </if>
+      <if test="instanceId != null">
+        instance_id = #{instanceId,jdbcType=INTEGER},
+      </if>
+      <if test="optUser != null">
+        opt_user = #{optUser,jdbcType=INTEGER},
+      </if>
+      <if test="optTime != null">
+        opt_time = #{optTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.workflow.model.WorkflowCheckUser">
+    update oa_workflow_check_user
+    set instance_node_id = #{instanceNodeId,jdbcType=INTEGER},
+      instance_id = #{instanceId,jdbcType=INTEGER},
+      opt_user = #{optUser,jdbcType=INTEGER},
+      opt_time = #{optTime,jdbcType=TIMESTAMP},
+      result = #{result,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <select id="selectUserListByInstanceNodeId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select  *    from oa_workflow_check_user
+    where instance_node_id = #{instanceNodeId,jdbcType=INTEGER} order by id
+  </select>
+  
+      <select id="selectCountByUserAndNode" resultType="java.lang.Integer">
+    select  count(*)   from oa_workflow_check_user
+    where instance_node_id = #{instanceNodeId,jdbcType=INTEGER} and opt_user = #{optUser,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

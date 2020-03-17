@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.custom.mapper.CustomMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.custom.model.Custom">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+    <result column="cust_type" jdbcType="INTEGER" property="custType" />
+    <result column="cust_name" jdbcType="VARCHAR" property="custName" />
+    <result column="cellphone" jdbcType="VARCHAR" property="cellphone" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="balance" jdbcType="DECIMAL" property="balance" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="enabled" jdbcType="INTEGER" property="enabled" />
+	<result column="keyword" jdbcType="VARCHAR" property="keyword" />
+	<result column="open_id" jdbcType="VARCHAR" property="wechatOpenId" />
+	<result column="wechat_name" jdbcType="VARCHAR" property="wechatName" />
+	<result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+	<result column="car_number" jdbcType="VARCHAR" property="carDataList" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, card_no, cust_type, cust_name, cellphone, score, birthday, sex, remark, balance, 
+    shop_id, enabled,open_id,wechat_name,add_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from custom
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from custom
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.custom.model.Custom">
+    insert into custom (id, card_no, cust_type, 
+      cust_name, cellphone, score, 
+      birthday, sex, remark, 
+      balance, shop_id, enabled,open_id,wechat_name,add_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{cardNo,jdbcType=VARCHAR}, #{custType,jdbcType=INTEGER}, 
+      #{custName,jdbcType=VARCHAR}, #{cellphone,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
+      #{birthday,jdbcType=DATE}, #{sex,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{balance,jdbcType=DECIMAL}, #{shopId,jdbcType=INTEGER}, #{enabled,jdbcType=INTEGER},#{wechatOpenId,jdbcType=VARCHAR},#{wechatName,jdbcType=VARCHAR}
+      , #{addTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.custom.model.Custom" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into custom
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cardNo != null">
+        card_no,
+      </if>
+      <if test="custType != null">
+        cust_type,
+      </if>
+      <if test="custName != null">
+        cust_name,
+      </if>
+      <if test="cellphone != null">
+        cellphone,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="balance != null">
+        balance,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="enabled != null">
+        enabled,
+      </if>
+      <if test="wechatOpenId != null">
+        open_id,
+      </if>
+      <if test="wechatName != null">
+        wechat_name,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cardNo != null">
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="custType != null">
+        #{custType,jdbcType=INTEGER},
+      </if>
+      <if test="custName != null">
+        #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="cellphone != null">
+        #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null">
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=INTEGER},
+      </if>
+      <if test="wechatOpenId != null">
+         #{wechatOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatName != null">
+        #{wechatName,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.custom.model.Custom">
+    update custom
+    <set>
+      <if test="cardNo != null">
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="custType != null">
+        cust_type = #{custType,jdbcType=INTEGER},
+      </if>
+      <if test="custName != null">
+        cust_name = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="cellphone != null">
+        cellphone = #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="addScore != null">
+          score = score + #{addScore,jdbcType=INTEGER},
+      </if>
+      <if test="subScore != null">
+          score = score - #{subScore,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null">
+        balance = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="addBalance != null">
+          balance = balance + #{addBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="subBalance != null">
+          balance = balance - #{subBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="enabled != null">
+        enabled = #{enabled,jdbcType=INTEGER},
+      </if>
+      <if test="wechatOpenId != null">
+         open_id=#{wechatOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatName != null">
+        wechat_name=#{wechatName,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        add_time=#{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.custom.model.Custom">
+    update custom
+    set card_no = #{cardNo,jdbcType=VARCHAR},
+      cust_type = #{custType,jdbcType=INTEGER},
+      cust_name = #{custName,jdbcType=VARCHAR},
+      cellphone = #{cellphone,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=DATE},
+      sex = #{sex,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      balance = #{balance,jdbcType=DECIMAL},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      open_id=#{wechatOpenId,jdbcType=VARCHAR},
+      wechat_name=#{wechatName,jdbcType=VARCHAR},
+      add_time=#{addTime,jdbcType=TIMESTAMP},
+      enabled = #{enabled,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="queryCustoms" parameterType="com.kyx.biz.custom.model.Custom" resultMap="BaseResultMap">
+    select t1.*
+    from custom t1 
+    where t1.enabled = 0
+    <if test="keyword != null and keyword != ''">
+    	and(
+    	t1.cellphone like CONCAT(CONCAT('%', #{keyword}), '%')
+    	or t1.cust_name like CONCAT(CONCAT('%', #{keyword}), '%')
+    	or t1.card_no like CONCAT(CONCAT('%', #{keyword}), '%')
+    	)
+    </if>
+    <if test="custType != null">
+        and t1.cust_type = #{custType}
+    </if>
+    <if test="bindFlag ==1">
+        and t1.open_id is not null
+    </if>
+    <if test="notNullOpenId != null">
+        and (t1.open_id is not null and t1.open_id <![CDATA[ <> ]]>  '')
+    </if>
+    order by t1.id desc
+  </select>
+
+  <select id="selectByCardNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from custom
+    where 1= 1
+     <if test="cardNo != null">
+       and card_no =  #{cardNo,jdbcType=VARCHAR}
+     </if>
+  </select>  
+  
+  <update id="delCustomById" parameterType="java.lang.Integer">
+    update custom
+    set  enabled = 1
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <select id="selectCardNoById" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select  card_no  from custom  where id = #{id,jdbcType=INTEGER}
+  </select>
+  <update id="updateByCardNo" parameterType="com.kyx.biz.custom.model.Custom">
+    update custom
+    <set>
+      <if test="balance != null">
+        balance = #{balance,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where card_no = #{cardNo,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getInfo" parameterType="com.kyx.biz.custom.model.Custom" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from custom
+    where 1= 1
+    <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+      	and (add_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+    </if>
+    <if test="shopId != null">
+        and shop_id=#{shopId,jdbcType=INTEGER}
+    </if>
+     order by add_time asc
+  </select>  
+  
+  <select id="getLossRep" parameterType="com.kyx.biz.report.vo.ReportQueryVo" resultType="java.lang.Integer">
+    select count(*) from custom c where not EXISTS 
+    (select * from orders o where o.cust_id = c.id and o.creat_time &gt; #{endDate,jdbcType=TIMESTAMP})
+    <if test="shopId != null">
+        and c.shop_id=#{shopId,jdbcType=INTEGER}
+    </if>
+  </select>  
+  <select id="getCount"  resultType="java.lang.Integer">
+    select count(id) from custom where  enabled != 1
+  </select> 
+  <select id="queryCustomAndCar" parameterType="com.kyx.biz.custom.model.Custom" resultMap="BaseResultMap">
+    select t.* , c.car_number
+    from custom t left join 
+    (select car_number, id, custom_id from car order by id desc) c 
+    on t.id = c.custom_id
+    where enabled = 0
+      <if test="keyword != null and keyword != ''">
+    	and(
+    	t.cellphone like CONCAT(CONCAT('%', #{keyword}), '%')
+    	or t.cust_name like CONCAT(CONCAT('%', #{keyword}), '%')
+    	or t.card_no like CONCAT(CONCAT('%', #{keyword}), '%')
+    	or c.car_number like CONCAT(CONCAT('%', #{keyword}), '%')
+    	)
+    </if>
+   GROUP BY t.id
+    order by t.id
+  </select>
+</mapper>

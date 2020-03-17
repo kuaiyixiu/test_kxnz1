@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.coupon.mapper.CouponPackDtMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.coupon.model.CouponPackDt">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pack_id" jdbcType="INTEGER" property="packId" />
+    <result column="coupon_id" jdbcType="INTEGER" property="couponId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="value" jdbcType="DECIMAL" property="value" />
+    <result column="days" jdbcType="INTEGER" property="days" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pack_id, coupon_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from coupon_pack_dt
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from coupon_pack_dt
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.coupon.model.CouponPackDt">
+    insert into coupon_pack_dt (id, pack_id, coupon_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{packId,jdbcType=INTEGER}, #{couponId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.coupon.model.CouponPackDt">
+    insert into coupon_pack_dt
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="packId != null">
+        pack_id,
+      </if>
+      <if test="couponId != null">
+        coupon_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="packId != null">
+        #{packId,jdbcType=INTEGER},
+      </if>
+      <if test="couponId != null">
+        #{couponId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.coupon.model.CouponPackDt">
+    update coupon_pack_dt
+    <set>
+      <if test="packId != null">
+        pack_id = #{packId,jdbcType=INTEGER},
+      </if>
+      <if test="couponId != null">
+        coupon_id = #{couponId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.coupon.model.CouponPackDt">
+    update coupon_pack_dt
+    set pack_id = #{packId,jdbcType=INTEGER},
+      coupon_id = #{couponId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <select id="getListByPackId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select dt.*,c.name,c.value,c.days,c.remark from coupon_pack_dt dt left join coupon c on c.id = dt.coupon_id   where  dt.pack_id = #{packId,jdbcType=INTEGER}  order by dt.id asc
+  </select>
+  
+    <select id="selectByPackId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    	select 
+    	<include refid="Base_Column_List" />
+    	from coupon_pack_dt
+    	where pack_id = #{packId,jdbcType=INTEGER}
+  	</select>
+  	
+  	
+  	<select id="selectCountByCouponId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    select count(*) from coupon_pack_dt where coupon_id  =  #{couponId,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

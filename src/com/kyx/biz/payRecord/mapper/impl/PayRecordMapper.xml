@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.payRecord.mapper.PayRecordMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.payRecord.model.PayRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="meal_dt_id" jdbcType="INTEGER" property="mealDtId" />
+    <result column="kind" jdbcType="INTEGER" property="kind" />
+    <result column="source_id" jdbcType="INTEGER" property="sourceId" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="pay_name" jdbcType="VARCHAR" property="payName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, type_id, amount, remark, meal_dt_id, kind, source_id, shop_id, add_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pay_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pay_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.kyx.biz.payRecord.model.PayRecord">
+    insert into pay_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="mealDtId != null">
+        meal_dt_id,
+      </if>
+      <if test="kind != null">
+        kind,
+      </if>
+      <if test="sourceId != null">
+        source_id,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+        add_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="mealDtId != null">
+        #{mealDtId,jdbcType=INTEGER},
+      </if>
+      <if test="kind != null">
+        #{kind,jdbcType=INTEGER},
+      </if>
+      <if test="sourceId != null">
+        #{sourceId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+		now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.payRecord.model.PayRecord">
+    update pay_record
+    <set>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="mealDtId != null">
+        meal_dt_id = #{mealDtId,jdbcType=INTEGER},
+      </if>
+      <if test="kind != null">
+        kind = #{kind,jdbcType=INTEGER},
+      </if>
+      <if test="sourceId != null">
+        source_id = #{sourceId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <select id="getList" parameterType="com.kyx.biz.payRecord.model.PayRecord" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    	from pay_record   where 1=1
+   		<if test="typeId != null">
+         and type_id = #{typeId,jdbcType=INTEGER}
+      </if>
+      <if test="amount != null">
+        and amount = #{amount,jdbcType=DECIMAL}
+      </if>
+      <if test="remark != null">
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="mealDtId != null">
+        and meal_dt_id = #{mealDtId,jdbcType=INTEGER}
+      </if>
+      <if test="kind != null">
+        and kind = #{kind,jdbcType=INTEGER}
+      </if>
+      <if test="sourceId != null">
+        and source_id = #{sourceId,jdbcType=INTEGER}
+      </if>
+      <if test="shopId != null">
+        and shop_id = #{shopId,jdbcType=INTEGER}
+      </if>
+      <if test="inKind != null">
+        <choose>
+        <when test="inKind == 1">
+         and kind in (2,5) 
+        </when>
+        <when test="inKind == 2">
+         and kind in (6,7) 
+        </when>
+        <when test="inKind == 3">
+         and kind in (1,3,4) 
+        </when>
+        </choose>
+      </if>
+      <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+      	and (add_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+    </if>
+     order by add_time desc
+  </select>
+  
+  <select id="getInAmtByAddTime" resultType="java.math.BigDecimal">
+    select sum(amount) from pay_record
+    where shop_id=#{shopId} and add_time between #{time,jdbcType=DATE} and date_add(#{time,jdbcType=DATE},interval 1 day) and kind in (1,3,4,6,7,9,11)
+  </select>
+  <select id="getOutAmtByAddTime" resultType="java.math.BigDecimal">
+    select sum(amount) from pay_record
+    where shop_id=#{shopId} and add_time between #{time,jdbcType=DATE} and date_add(#{time,jdbcType=DATE},interval 1 day) and kind in (2,5,8,10)
+  </select>
+  
+  <select id="getPayRecordReport" resultMap="BaseResultMap">
+  	select p.pay_name,ifnull(m.count,0) as  count,ifnull(m.amount,0) as amount  from pay_type p 
+  	LEFT JOIN  (select SUM(amount) as amount,count(*) as count ,type_id from pay_record    	
+   	where shop_id=#{shopId} 
+  	  <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+  	   and (add_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})   and kind in (1,4)
+  	  </if>
+  	GROUP BY type_id) m on m.type_id = p.id  
+  </select>
+  
+  
+</mapper> 

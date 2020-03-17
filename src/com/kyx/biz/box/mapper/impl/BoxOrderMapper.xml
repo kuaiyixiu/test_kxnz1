@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.box.mapper.BoxOrderMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.box.model.BoxOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="custom_id" jdbcType="INTEGER" property="customId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="service_id" jdbcType="INTEGER" property="serviceId" />
+    <result column="custom_img_name" jdbcType="VARCHAR" property="customImgName" />
+    <result column="custom_remark" jdbcType="VARCHAR" property="customRemark" />
+    <result column="worker_address_img_url" jdbcType="VARCHAR" property="workerAddressImgUrl" />
+    <result column="worker_img_url" jdbcType="VARCHAR" property="workerImgUrl" />
+    <result column="worker_remark" jdbcType="VARCHAR" property="workerRemark" />
+    <result column="worker_id" jdbcType="INTEGER" property="workerId" />
+    <result column="custom_phone" jdbcType="VARCHAR" property="customPhone" />
+    <result column="car_number" jdbcType="VARCHAR" property="carNumber" />
+    <result column="car_brand" jdbcType="VARCHAR" property="carBrand" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="accept_time" jdbcType="TIMESTAMP" property="acceptTime" />
+    <result column="work_end_time" jdbcType="TIMESTAMP" property="workEndTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="lock_id" jdbcType="INTEGER" property="lockId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="cust_name" jdbcType="VARCHAR" property="custName" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="serve_name" jdbcType="VARCHAR" property="serveName" />
+    <result column="lockNumber" jdbcType="INTEGER" property="lockNumber" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, custom_id, order_id, service_id, custom_img_name, custom_remark, worker_address_img_url, 
+    worker_img_url, worker_remark, worker_id, custom_phone, car_number, car_brand, create_time, 
+    accept_time, work_end_time, end_time, lock_id, status
+  </sql>
+  <select id="selectByExample" parameterType="com.kyx.biz.box.model.BoxOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from box_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from box_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from box_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kyx.biz.box.model.BoxOrderExample">
+    delete from box_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.box.model.BoxOrder">
+    insert into box_order (id, custom_id, order_id, 
+      service_id, custom_img_name, custom_remark, 
+      worker_address_img_url, worker_img_url, worker_remark, 
+      worker_id, custom_phone, car_number, 
+      car_brand, create_time, accept_time, 
+      work_end_time, end_time, lock_id, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{customId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, 
+      #{serviceId,jdbcType=INTEGER}, #{customImgName,jdbcType=VARCHAR}, #{customRemark,jdbcType=VARCHAR}, 
+      #{workerAddressImgUrl,jdbcType=VARCHAR}, #{workerImgUrl,jdbcType=VARCHAR}, #{workerRemark,jdbcType=VARCHAR}, 
+      #{workerId,jdbcType=INTEGER}, #{customPhone,jdbcType=VARCHAR}, #{carNumber,jdbcType=VARCHAR}, 
+      #{carBrand,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{acceptTime,jdbcType=TIMESTAMP}, 
+      #{workEndTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{lockId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.box.model.BoxOrder">
+    insert into box_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customId != null">
+        custom_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="serviceId != null">
+        service_id,
+      </if>
+      <if test="customImgName != null">
+        custom_img_name,
+      </if>
+      <if test="customRemark != null">
+        custom_remark,
+      </if>
+      <if test="workerAddressImgUrl != null">
+        worker_address_img_url,
+      </if>
+      <if test="workerImgUrl != null">
+        worker_img_url,
+      </if>
+      <if test="workerRemark != null">
+        worker_remark,
+      </if>
+      <if test="workerId != null">
+        worker_id,
+      </if>
+      <if test="customPhone != null">
+        custom_phone,
+      </if>
+      <if test="carNumber != null">
+        car_number,
+      </if>
+      <if test="carBrand != null">
+        car_brand,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="acceptTime != null">
+        accept_time,
+      </if>
+      <if test="workEndTime != null">
+        work_end_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="lockId != null">
+        lock_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="customId != null">
+        #{customId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceId != null">
+        #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="customImgName != null">
+        #{customImgName,jdbcType=VARCHAR},
+      </if>
+      <if test="customRemark != null">
+        #{customRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="workerAddressImgUrl != null">
+        #{workerAddressImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="workerImgUrl != null">
+        #{workerImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="workerRemark != null">
+        #{workerRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="workerId != null">
+        #{workerId,jdbcType=INTEGER},
+      </if>
+      <if test="customPhone != null">
+        #{customPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="carNumber != null">
+        #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="carBrand != null">
+        #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptTime != null">
+        #{acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workEndTime != null">
+        #{workEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lockId != null">
+        #{lockId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kyx.biz.box.model.BoxOrderExample" resultType="java.lang.Long">
+    select count(*) from box_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update box_order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.customId != null">
+        custom_id = #{record.customId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.serviceId != null">
+        service_id = #{record.serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.customImgName != null">
+        custom_img_name = #{record.customImgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customRemark != null">
+        custom_remark = #{record.customRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerAddressImgUrl != null">
+        worker_address_img_url = #{record.workerAddressImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerImgUrl != null">
+        worker_img_url = #{record.workerImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerRemark != null">
+        worker_remark = #{record.workerRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerId != null">
+        worker_id = #{record.workerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.customPhone != null">
+        custom_phone = #{record.customPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carNumber != null">
+        car_number = #{record.carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carBrand != null">
+        car_brand = #{record.carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.acceptTime != null">
+        accept_time = #{record.acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.workEndTime != null">
+        work_end_time = #{record.workEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lockId != null">
+        lock_id = #{record.lockId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update box_order
+    set id = #{record.id,jdbcType=INTEGER},
+      custom_id = #{record.customId,jdbcType=INTEGER},
+      order_id = #{record.orderId,jdbcType=INTEGER},
+      service_id = #{record.serviceId,jdbcType=INTEGER},
+      custom_img_name = #{record.customImgName,jdbcType=VARCHAR},
+      custom_remark = #{record.customRemark,jdbcType=VARCHAR},
+      worker_address_img_url = #{record.workerAddressImgUrl,jdbcType=VARCHAR},
+      worker_img_url = #{record.workerImgUrl,jdbcType=VARCHAR},
+      worker_remark = #{record.workerRemark,jdbcType=VARCHAR},
+      worker_id = #{record.workerId,jdbcType=INTEGER},
+      custom_phone = #{record.customPhone,jdbcType=VARCHAR},
+      car_number = #{record.carNumber,jdbcType=VARCHAR},
+      car_brand = #{record.carBrand,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      accept_time = #{record.acceptTime,jdbcType=TIMESTAMP},
+      work_end_time = #{record.workEndTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      lock_id = #{record.lockId,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.box.model.BoxOrder">
+    update box_order
+    <set>
+      <if test="customId != null">
+        custom_id = #{customId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceId != null">
+        service_id = #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="customImgName != null">
+        custom_img_name = #{customImgName,jdbcType=VARCHAR},
+      </if>
+      <if test="customRemark != null">
+        custom_remark = #{customRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="workerAddressImgUrl != null">
+        worker_address_img_url = #{workerAddressImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="workerImgUrl != null">
+        worker_img_url = #{workerImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="workerRemark != null">
+        worker_remark = #{workerRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="workerId != null">
+        worker_id = #{workerId,jdbcType=INTEGER},
+      </if>
+      <if test="customPhone != null">
+        custom_phone = #{customPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="carNumber != null">
+        car_number = #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="carBrand != null">
+        car_brand = #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptTime != null">
+        accept_time = #{acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workEndTime != null">
+        work_end_time = #{workEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lockId != null">
+        lock_id = #{lockId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.box.model.BoxOrder">
+    update box_order
+    set custom_id = #{customId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=INTEGER},
+      service_id = #{serviceId,jdbcType=INTEGER},
+      custom_img_name = #{customImgName,jdbcType=VARCHAR},
+      custom_remark = #{customRemark,jdbcType=VARCHAR},
+      worker_address_img_url = #{workerAddressImgUrl,jdbcType=VARCHAR},
+      worker_img_url = #{workerImgUrl,jdbcType=VARCHAR},
+      worker_remark = #{workerRemark,jdbcType=VARCHAR},
+      worker_id = #{workerId,jdbcType=INTEGER},
+      custom_phone = #{customPhone,jdbcType=VARCHAR},
+      car_number = #{carNumber,jdbcType=VARCHAR},
+      car_brand = #{carBrand,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      accept_time = #{acceptTime,jdbcType=TIMESTAMP},
+      work_end_time = #{workEndTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      lock_id = #{lockId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectBoxOrder" parameterType="com.kyx.biz.box.model.BoxOrder" resultMap="BaseResultMap">
+	 select t1.*, t2.cust_name as customName, t3.serve_name as serviceName, t3.price as price,
+	 t4.lock_number as lockNumber
+	 	from box_order t1 
+	 	left join custom t2
+	 		on t1.custom_id = t2.id
+	 	left join serve t3
+	 		on t1.service_id = t3.id
+	 	left join lock_info t4
+	 		on t4.id = t1.lock_id
+	 	where 1 = 1
+	 <if test="status != null">
+        and t1.status = #{status,jdbcType=INTEGER}
+     </if>	
+	 <if test="workerId != null">
+        and t1.worker_id = #{workerId,jdbcType=INTEGER}
+     </if>		
+  </select>
+</mapper>

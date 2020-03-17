@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.customprice.mapper.CustomPriceMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.customprice.model.CustomPrice">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cust_type" jdbcType="INTEGER" property="custType" />
+    <result column="kind" jdbcType="INTEGER" property="kind" />
+    <result column="item_id" jdbcType="INTEGER" property="itemId" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="oldprice" jdbcType="DECIMAL" property="oldprice" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, cust_type, kind, item_id, price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from custom_price
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from custom_price
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.customprice.model.CustomPrice">
+    insert into custom_price (id, cust_type, kind, 
+      item_id, price)
+    values (#{id,jdbcType=INTEGER}, #{custType,jdbcType=INTEGER}, #{kind,jdbcType=INTEGER}, 
+      #{itemId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.customprice.model.CustomPrice">
+    insert into custom_price
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="custType != null">
+        cust_type,
+      </if>
+      <if test="kind != null">
+        kind,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="custType != null">
+        #{custType,jdbcType=INTEGER},
+      </if>
+      <if test="kind != null">
+        #{kind,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.customprice.model.CustomPrice">
+    update custom_price
+    <set>
+      <if test="custType != null">
+        cust_type = #{custType,jdbcType=INTEGER},
+      </if>
+      <if test="kind != null">
+        kind = #{kind,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.customprice.model.CustomPrice">
+    update custom_price
+    set cust_type = #{custType,jdbcType=INTEGER},
+      kind = #{kind,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getInfo" parameterType="com.kyx.biz.customprice.model.CustomPrice" resultMap="BaseResultMap">
+    select c.id as id,c.price as price, 
+    <if test="kind != null and kind==1">
+    p.serve_name as name,p.price as oldprice,p.id as item_id from serve p 
+    </if>
+    <if test="kind != null and kind==2">
+      p.product_name as name,p.price as oldprice,p.id as item_id from product p 
+    </if> 
+     left join custom_price c on p.id=c.item_id where 1=1 
+    <if test="shopId != null">
+       and p.shop_id = #{shopId}
+    </if>
+<!--     <if test="custType != null"> -->
+<!--        and c.cust_type = #{custType} -->
+<!--     </if> -->
+    <if test="classId != null">
+       and p.class_id = #{classId}
+    </if>
+    <if test="itemName != null and kind==1">
+       and p.serve_name like CONCAT('%', #{itemName},'%')
+    </if>
+    <if test="itemName != null and kind==2">
+       and p.product_name like CONCAT('%', #{itemName},'%')
+    </if>
+
+  </select>
+</mapper>

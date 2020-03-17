@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.customMeal.mapper.CustomMealMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.customMeal.model.CustomMeal">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="meal_id" jdbcType="INTEGER" property="mealId" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="create_date" jdbcType="DATE" property="createDate" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, cust_id, meal_id, price, end_date, create_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from custom_meal
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from custom_meal
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.customMeal.model.CustomMeal">
+    insert into custom_meal (id, cust_id, meal_id, 
+      price, end_date, create_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{mealId,jdbcType=INTEGER}, 
+      #{price,jdbcType=DECIMAL}, #{endDate,jdbcType=DATE}, #{createDate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.customMeal.model.CustomMeal" useGeneratedKeys="true"  keyProperty="id" keyColumn="id">
+    insert into custom_meal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="mealId != null">
+        meal_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="mealId != null">
+        #{mealId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.customMeal.model.CustomMeal">
+    update custom_meal
+    <set>
+      <if test="custId != null">
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="mealId != null">
+        meal_id = #{mealId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.customMeal.model.CustomMeal">
+    update custom_meal
+    set cust_id = #{custId,jdbcType=INTEGER},
+      meal_id = #{mealId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      end_date = #{endDate,jdbcType=DATE},
+      create_date = #{createDate,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectCustomMeal" parameterType="com.kyx.biz.customMeal.model.CustomMeal" resultMap="BaseResultMap">
+    select t1.id, t1.price, t1.create_date, t1.end_date, t2.name as name,t2.shop_id
+    from custom_meal t1 LEFT JOIN  meal t2
+    on t1.meal_id = t2.id
+    where t1.end_date >= NOW()
+    and t1.cust_id = #{custId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectExpireMeals" parameterType="com.kyx.biz.customMeal.model.CustomMeal" resultMap="BaseResultMap">
+    select t1.id, t1.price, t1.create_date, t1.end_date, t2.name as name
+    from custom_meal t1 LEFT JOIN  meal t2
+    on t1.meal_id = t2.id
+    where t2.shop_id = #{shopId,jdbcType=INTEGER}
+    and t1.end_date >= NOW()
+    and t1.cust_id = #{custId,jdbcType=INTEGER}
+  </select>
+  
+</mapper>

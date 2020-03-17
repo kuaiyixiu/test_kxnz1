@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.dailypay.mapper.DailyPayTypeMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.dailypay.model.DailyPayType">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, type_name,shop_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from daily_pay_type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from daily_pay_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.kyx.biz.dailypay.model.DailyPayType">
+    insert into daily_pay_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="typeName != null">
+        type_name,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+       <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.dailypay.model.DailyPayType">
+    update daily_pay_type
+    <set>
+      <if test="typeName != null">
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+   <select id="getList" parameterType="com.kyx.biz.dailypay.model.DailyPayType" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    	from daily_pay_type   where 1=1
+       <if test="typeName != null">
+        	and type_name like CONCAT('%',#{typeName},'%')
+      </if>
+      <if test="shopId != null">
+        	and shop_id = #{shopId,jdbcType=INTEGER}
+      </if>
+     order by id
+  </select>
+  
+</mapper>

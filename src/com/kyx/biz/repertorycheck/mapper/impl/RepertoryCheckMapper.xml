@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.repertorycheck.mapper.RepertoryCheckMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.repertorycheck.model.RepertoryCheck">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="before_quantity" jdbcType="INTEGER" property="beforeQuantity" />
+    <result column="after_quantity" jdbcType="INTEGER" property="afterQuantity" />
+    <result column="opt_user" jdbcType="VARCHAR" property="optUser" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="product_name" jdbcType="INTEGER" property="productName" />
+    <result column="product_type" jdbcType="INTEGER" property="productType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, check_time, product_id, before_quantity, after_quantity, opt_user, shop_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from repertory_check
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from repertory_check
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.repertorycheck.model.RepertoryCheck">
+    insert into repertory_check (id, check_time, product_id, 
+      before_quantity, after_quantity, opt_user, 
+      shop_id)
+    values (#{id,jdbcType=INTEGER}, #{checkTime,jdbcType=TIMESTAMP}, #{productId,jdbcType=INTEGER}, 
+      #{beforeQuantity,jdbcType=INTEGER}, #{afterQuantity,jdbcType=INTEGER}, #{optUser,jdbcType=VARCHAR}, 
+      #{shopId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.repertorycheck.model.RepertoryCheck">
+    insert into repertory_check
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="checkTime != null">
+        check_time,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="beforeQuantity != null">
+        before_quantity,
+      </if>
+      <if test="afterQuantity != null">
+        after_quantity,
+      </if>
+      <if test="optUser != null">
+        opt_user,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="checkTime != null">
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="beforeQuantity != null">
+        #{beforeQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="afterQuantity != null">
+        #{afterQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="optUser != null">
+        #{optUser,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.repertorycheck.model.RepertoryCheck">
+    update repertory_check
+    <set>
+      <if test="checkTime != null">
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="beforeQuantity != null">
+        before_quantity = #{beforeQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="afterQuantity != null">
+        after_quantity = #{afterQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="optUser != null">
+        opt_user = #{optUser,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.repertorycheck.model.RepertoryCheck">
+    update repertory_check
+    set check_time = #{checkTime,jdbcType=TIMESTAMP},
+      product_id = #{productId,jdbcType=INTEGER},
+      before_quantity = #{beforeQuantity,jdbcType=INTEGER},
+      after_quantity = #{afterQuantity,jdbcType=INTEGER},
+      opt_user = #{optUser,jdbcType=VARCHAR},
+      shop_id = #{shopId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getInfo" parameterType="com.kyx.biz.repertorycheck.model.RepertoryCheck" resultMap="BaseResultMap">
+    select rc.*,p.product_name,p.product_type from repertory_check rc  left join product p on rc.product_id=p.id where 1=1 
+    <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+      and (rc.check_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+    </if>
+    <if test="productName != null and productName!=''">
+       and p.product_name like CONCAT('%', #{productName},'%')
+    </if>
+    <if test="type != null and type =='1'.toString()">
+       and rc.before_quantity=rc.after_quantity
+    </if>
+    <if test="type != null and type =='2'.toString()">
+       and rc.before_quantity &lt; rc.after_quantity
+    </if>
+    <if test="type != null and type =='3'.toString()">
+       and rc.before_quantity &gt; rc.after_quantity
+    </if>
+    <if test="shopId != null">
+       and rc.shop_id = #{shopId,jdbcType=INTEGER}
+     </if>
+  </select>
+  <select id="getAppInfo" parameterType="com.kyx.biz.repertorycheck.model.RepertoryCheck" resultMap="BaseResultMap">
+   select rc.id, rc.check_time, p.id as product_id, rc.before_quantity, rc.after_quantity, rc.opt_user, rc.shop_id,p.product_name,p.product_type from product p left join 
+   (select * from (select * from repertory_check order by id desc) r GROUP BY r.product_id) rc on rc.product_id=p.id where 1=1 
+    <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+      and (rc.check_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+    </if>
+    <if test="productName != null and productName!=''">
+       and p.product_name like CONCAT('%', #{productName},'%')
+    </if>
+    <if test="classId != null">
+       and p.class_id =#{classId}
+    </if>
+    <if test="shopId != null">
+       and p.shop_id = #{shopId,jdbcType=INTEGER}
+     </if>
+  </select>
+</mapper>

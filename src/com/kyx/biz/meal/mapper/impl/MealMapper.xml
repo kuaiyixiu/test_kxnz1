@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.meal.mapper.MealMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.meal.model.Meal">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="day" jdbcType="INTEGER" property="day" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, day, name, amount, status, shop_id, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from meal
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from meal
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.meal.model.Meal">
+    insert into meal (id, day, name, 
+      amount, status, shop_id, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{day,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, #{shopId,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective"  parameterType="com.kyx.biz.meal.model.Meal" useGeneratedKeys="true"  keyProperty="id" keyColumn="id">
+    insert into meal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="day != null">
+        day,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="day != null">
+        #{day,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.meal.model.Meal">
+    update meal
+    <set>
+      <if test="day != null">
+        day = #{day,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.meal.model.Meal">
+    update meal
+    set day = #{day,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=VARCHAR},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectMealList" parameterType="com.kyx.biz.meal.model.Meal" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from meal
+    where 1=1
+    <if test="shopId != null">
+     and shop_id = #{shopId,jdbcType=INTEGER}
+    </if>
+	<if test="status != null">
+     and status = #{status,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  
+   <select id="selectMealByShopIds" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from meal
+    where 1=1
+    and shop_id in
+    <foreach collection="list" item="item" index="index" separator="," open="("  close=")">
+      #{item}
+    </foreach>
+    and status in
+    <foreach collection="statusList" item="items" index="indexs" separator="," open="("  close=")">
+      #{items}
+    </foreach>  
+  </select>
+  
+</mapper>

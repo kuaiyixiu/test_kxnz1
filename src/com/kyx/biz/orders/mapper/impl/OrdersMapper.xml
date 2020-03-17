@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.orders.mapper.OrdersMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.orders.model.Orders">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="car_number" jdbcType="VARCHAR" property="carNumber" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="order_amt" jdbcType="DECIMAL" property="orderAmt" />
+    <result column="pay_amount" jdbcType="DECIMAL" property="payAmount" />
+    <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
+    <result column="doing_time" jdbcType="TIMESTAMP" property="doingTime" />
+    <result column="done_time" jdbcType="TIMESTAMP" property="doneTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="operate_time" jdbcType="TIMESTAMP" property="operateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="cust_name" jdbcType="VARCHAR" property="custName" />
+    <result column="evaluate_time" jdbcType="TIMESTAMP" property="evaluateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_no, car_number, cust_id, order_status, order_type, order_amt, 
+    pay_amount, creat_time, submit_time, doing_time,done_time,finish_time, operate_time, remark,shop_id,create_user,evaluate_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from orders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from orders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.kyx.biz.orders.model.Orders" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into orders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="carNumber != null">
+        car_number,
+      </if>
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="orderAmt != null">
+        order_amt,
+      </if>
+      <if test="payAmount != null">
+        pay_amount,
+      </if>
+        creat_time,
+      <if test="submitTime != null">
+        submit_time,
+      </if>
+      <if test="doingTime != null">
+        doing_time,
+      </if>
+      <if test="doneTime != null">
+        done_time,
+      </if>
+      <if test="finishTime != null">
+        finish_time,
+      </if>
+        operate_time,
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="evaluateTime != null">
+        evaluate_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carNumber != null">
+        #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="orderAmt != null">
+        #{orderAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="payAmount != null">
+        #{payAmount,jdbcType=DECIMAL},
+      </if>
+ 		now(),
+      <if test="submitTime != null">
+        #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="doingTime != null">
+        #{doingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="doneTime != null">
+        #{doneTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null">
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+		now(),
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+        <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluateTime != null">
+        #{evaluateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.orders.model.Orders">
+    update orders
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carNumber != null">
+        car_number = #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null">
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="orderAmt != null">
+        order_amt = #{orderAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="payAmount != null">
+        pay_amount = #{payAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="creatTime != null">
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submitTime != null">
+        submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="doingTime != null">
+        doing_time = #{doingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="doneTime != null">
+        done_time = #{doneTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null">
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+        operate_time = now(),
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateTime != null">
+        evaluate_time = #{evaluateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  
+    <select id="getOrdersList" parameterType="com.kyx.biz.orders.model.Orders" resultMap="BaseResultMap">
+    select 
+   		o.*
+    	from orders o
+    	<if test="(custName != null and custName !='') or (cardNo != null and cardNo !='')">
+    		left join custom c on o.cust_id = c.id
+    	</if>
+    	  where 1=1
+    <if test="orderNo != null and orderNo !=''">
+    	and o.order_no like CONCAT('%',#{orderNo},'%')
+    </if>
+    <if test="shopId != null">
+        and o.shop_id = #{shopId}
+     </if>
+    <if test="carNumber != null and carNumber !=''">
+    	and o.car_number like CONCAT('%',#{carNumber},'%')
+    </if>
+      <if test="orderStatus != null">
+			<choose>
+				<when test="orderStatus == 56 ">
+					and o.order_status in (5,6)
+				</when>
+				<when test="orderStatus == 456 ">
+					and o.order_status in (4,5,6)
+				</when>
+				<otherwise>
+					and o.order_status = #{orderStatus}
+				</otherwise>
+			</choose>
+		</if>
+	 <if test="orderStatus == null">
+	       and o.order_status != 0
+	 </if>
+      <if test="orderType != null">
+        and o.order_type = #{orderType,jdbcType=INTEGER}
+      </if>
+       <if test="custId != null">
+        and o.cust_id = #{custId,jdbcType=INTEGER}
+      </if>
+       <if test="notOrderStatus != null">
+        and o.order_status <![CDATA[ <> ]]> #{notOrderStatus,jdbcType=INTEGER}
+      </if>
+      <if test="notInOrderStatus != null and notInOrderStatus != '' ">
+         and o.order_status not in (${notInOrderStatus})
+      </if>
+       <if test="notNullCustId != null and notNullCustId == 1">
+        and o.cust_id is not null
+      </if>
+      <if test="custName != null and custName !=''">
+    	and c.cust_name like CONCAT('%',#{custName},'%')
+    </if>
+      <if test="cardNo != null and cardNo !=''">
+    	and c.card_no like CONCAT('%',#{cardNo},'%')
+    </if>
+     <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+      and (o.creat_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+    </if>
+     order by o.creat_time desc
+  </select>
+  
+  
+  
+   <select id="getOrdersCustList" parameterType="com.kyx.biz.orders.model.Orders" resultMap="BaseResultMap">
+    select 
+   		o.*,c.cust_name
+    	from orders o
+    	left join custom c on o.cust_id = c.id
+    	where 1=1
+    <if test="orderNo != null and orderNo !=''">
+    	and o.order_no like CONCAT('%',#{orderNo},'%')
+    </if>
+    <if test="shopId != null">
+        and o.shop_id = #{shopId}
+     </if>
+    <if test="carNumber != null and carNumber !=''">
+    	and o.car_number like CONCAT('%',#{carNumber},'%')
+    </if>
+      <if test="orderStatus != null">
+			<choose>
+				<when test="orderStatus == 56 ">
+					and o.order_status in (5,6)
+				</when>
+				<when test="orderStatus == 456 ">
+					and o.order_status in (4,5,6)
+				</when>
+				<otherwise>
+					and o.order_status = #{orderStatus}
+				</otherwise>
+			</choose>
+		</if>
+	 <if test="orderStatus == null">
+	       and o.order_status != 0
+	 </if>
+      <if test="orderType != null">
+        and o.order_type = #{orderType,jdbcType=INTEGER}
+      </if>
+       <if test="custId != null">
+        and o.cust_id = #{custId,jdbcType=INTEGER}
+      </if>
+       <if test="notOrderStatus != null">
+        and o.order_status != #{notOrderStatus,jdbcType=INTEGER}
+      </if>
+       <if test="notNullCustId != null and notNullCustId == 1">
+        and o.cust_id is not null
+      </if>
+      <if test="custName != null and custName !=''">
+    	and c.cust_name like CONCAT('%',#{custName},'%')
+    </if>
+      <if test="cardNo != null and cardNo !=''">
+    	and c.card_no like CONCAT('%',#{cardNo},'%')
+    </if>
+     <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+      and (o.creat_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+    </if>
+     order by o.creat_time desc
+  </select>
+  
+  <resultMap id="BaseResultMaps" type="com.kyx.biz.orders.model.Orders">
+  	<result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+  	<result column="cust_name" jdbcType="VARCHAR" property="custName" />
+    <result column="pay_amount" jdbcType="DECIMAL" property="payAmount" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+  </resultMap>
+  
+  <select id="selectCustomOrders" parameterType="com.kyx.biz.orders.model.Orders" resultMap="BaseResultMaps">
+  	select t1.pay_amount, t1.finish_time, t2.cust_name, t2.card_no
+  	from orders t1 INNER JOIN custom t2 
+  	on t1.cust_id = t2.id 
+  	where t1.order_status = 5
+  	AND t1.shop_id = #{shopId,jdbcType=INTEGER}
+  	AND t2.shop_id = #{customShopId,jdbcType=INTEGER}
+  	AND (t1.finish_time between #{dateRangeStartTime,jdbcType=DATE} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+  </select>
+  
+  <select id="selectConsumeOrders" parameterType="com.kyx.biz.orders.model.Orders" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+   	from orders 
+   	where 1 = 1
+    AND car_number = #{carNumber,jdbcType=VARCHAR}
+    AND shop_id = #{shopId,jdbcType=INTEGER}
+    <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+		AND (finish_time between #{dateRangeStartTime,jdbcType=DATE} and #{dateRangeEndTime,jdbcType=DATE})
+	</if>
+	AND order_status IN (5, 6)
+    order by finish_time desc
+  </select>
+  
+  <sql id="Base_Select_Server">
+     select a1.cust_name custName,a1.cellphone customPhone,a1.car_number carNumber,
+    	a2.done_time doneTime,a2.zq cycle,a2.serve_name serverName, a2.id, a1.card_No as cardNo
+     from
+     (select t2.cust_name, t2.cellphone, t2.card_No, t1.car_number, t1.id, t1.shop_id from orders t1
+		INNER JOIN custom t2
+		on t1.cust_id = t2.id
+	    WHERE t1.cust_id is not NULL
+	    AND t1.shop_id = #{shopId, jdbcType=INTEGER}
+	  )a1, 
+	 (select t1.done_time, t2.serve_name, t2.zq, t1.order_id, t1.id, t1.status from orders_serve t1
+		INNER JOIN serve t2
+		on t1.serve_id = t2.id 
+		where t2.zq is not NULL
+		AND t1.serve_status = 3
+		AND t1.status = #{status, jdbcType=INTEGER}
+	  )a2
+	where a2.order_id = a1.id  
+  </sql>
+  
+  <select id="selectInvitationServer"  resultType="com.kyx.biz.remind.model.Invitation">
+   <include refid="Base_Select_Server" />
+  </select>
+  
+  <select id="selectInvitationServerById"  resultType="com.kyx.biz.remind.model.Invitation">
+   <include refid="Base_Select_Server" />
+    and a2.id = #{id} LIMIT 1
+  </select>
+  
+  <select id="selectOrdersList" parameterType="com.kyx.biz.orders.model.Orders" resultMap="BaseResultMap">
+    select t2.cust_name, t1.* 
+    	from orders t1
+    	LEFT JOIN custom t2
+    	ON t1.cust_id = t2.id
+    	where 1 = 1
+    <if test="carNumber != null and carNumber !=''">
+    	and t1.car_number like CONCAT('%',#{carNumber},'%')
+    </if>
+      <if test="orderStatus != null">
+			<choose>
+				<when test="orderStatus == 23 ">
+					and t1.order_status in (2, 3)
+				</when>
+				<otherwise>
+					and t1.order_status = #{orderStatus}
+				</otherwise>
+			</choose>
+		</if>
+     order by t1.creat_time desc
+  </select>
+
+  
+  <select id="selectByCarNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from orders
+    where car_number=#{carNumber} ORDER BY creat_time desc LIMIT 1
+  </select>
+  
+  <select id="getCountsByCreatTime" resultType="java.lang.Integer">
+    select count(*) from orders
+    where shop_id=#{shopId} and creat_time between #{time,jdbcType=DATE} and date_add(#{time,jdbcType=DATE},interval 1 day)
+  </select>
+  
+  <select id="getFinishOrderAmt" resultType="java.math.BigDecimal">
+    select SUM(order_amt) from orders
+    where shop_id=#{shopId} and order_status = 5  and (finish_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+  </select>
+  
+  <select id="getCarConsumeReport" resultMap="BaseResultMap">
+  select SUM(o.order_amt)as order_amt,count(*) as count,o.car_number,(select cust_name from custom c where c.id = o.cust_id) as cust_name
+  		from orders  o where (o.car_number is not null and o.car_number <![CDATA[ <> ]]> '' and o.order_status in (5,6)
+  		 <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+      		and (o.creat_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+    	 </if>
+  		)
+		GROUP BY o.car_number ORDER BY SUM(o.order_amt) desc    LIMIT 100;
+  </select>
+  
+</mapper>

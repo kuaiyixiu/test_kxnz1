@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.carMaintain.mapper.CarMaintainMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.carMaintain.model.CarMaintain">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="remind_time" jdbcType="DATE" property="remindTime" />
+    <result column="progress_mileage" jdbcType="INTEGER" property="progressMileage" />
+    <result column="remind_mileage" jdbcType="INTEGER" property="remindMileage" />
+    <result column="car_id" jdbcType="INTEGER" property="carId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+	<result column="car_number" jdbcType="VARCHAR" property="carNumber" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, create_time, remind_time, progress_mileage, remind_mileage, car_id, remark, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from car_maintain_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from car_maintain_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.carMaintain.model.CarMaintain">
+    insert into car_maintain_info (id, create_time, remind_time, 
+      progress_mileage, remind_mileage, car_id, 
+      remark, status)
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=DATE}, #{remindTime,jdbcType=DATE}, 
+      #{progressMileage,jdbcType=INTEGER}, #{remindMileage,jdbcType=INTEGER}, #{carId,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.carMaintain.model.CarMaintain">
+    insert into car_maintain_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="remindTime != null">
+        remind_time,
+      </if>
+      <if test="progressMileage != null">
+        progress_mileage,
+      </if>
+      <if test="remindMileage != null">
+        remind_mileage,
+      </if>
+      <if test="carId != null">
+        car_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="remindTime != null">
+        #{remindTime,jdbcType=DATE},
+      </if>
+      <if test="progressMileage != null">
+        #{progressMileage,jdbcType=INTEGER},
+      </if>
+      <if test="remindMileage != null">
+        #{remindMileage,jdbcType=INTEGER},
+      </if>
+      <if test="carId != null">
+        #{carId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.carMaintain.model.CarMaintain">
+    update car_maintain_info
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="remindTime != null">
+        remind_time = #{remindTime,jdbcType=DATE},
+      </if>
+      <if test="progressMileage != null">
+        progress_mileage = #{progressMileage,jdbcType=INTEGER},
+      </if>
+      <if test="remindMileage != null">
+        remind_mileage = #{remindMileage,jdbcType=INTEGER},
+      </if>
+      <if test="carId != null">
+        car_id = #{carId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.carMaintain.model.CarMaintain">
+    update car_maintain_info
+    set create_time = #{createTime,jdbcType=DATE},
+      remind_time = #{remindTime,jdbcType=DATE},
+      progress_mileage = #{progressMileage,jdbcType=INTEGER},
+      remind_mileage = #{remindMileage,jdbcType=INTEGER},
+      car_id = #{carId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectCarMaintainByCarId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from car_maintain_info
+    where car_id = #{carId,jdbcType=INTEGER}
+    order by create_time
+  </select>
+  
+  <select id="selectCarMaintain" parameterType="com.kyx.biz.car.model.Car" resultMap="BaseResultMap">
+	select t1.*,t2.car_number from car_maintain_info t1
+	INNER JOIN car  t2
+	on t1.car_id = t2.id
+    where remind_time between #{dateRangeStartTime,jdbcType=DATE} and #{dateRangeEndTime,jdbcType=DATE}
+    <if test ="keyword != null and keyword != ''">
+		and t2.car_number like CONCAT(CONCAT('%', #{keyword}), '%')
+	</if>
+    order by remind_time desc
+  </select>
+  
+  <select id="selectCarMaintainDesc" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from car_maintain_info
+    where car_id = #{carId,jdbcType=INTEGER}
+    order by create_time desc
+  </select>
+  
+  <select id="selectCarMaintainByCarIds"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from car_maintain_info
+    where car_id in
+    <foreach collection="list" item="item" index="index" separator="," open="("  close=")">
+      #{item.id}
+    </foreach>
+    and status = #{status,jdbcType=INTEGER} 
+    order by create_time desc 
+  </select>
+  
+</mapper>

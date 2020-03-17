@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.basic.sysparam.mapper.SysParamMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.basic.sysparam.model.SysParam">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="iidno" jdbcType="INTEGER" property="iidno" />
+    <result column="param_name" jdbcType="VARCHAR" property="paramName" />
+    <result column="param_value" jdbcType="VARCHAR" property="paramValue" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="opt_time" jdbcType="TIMESTAMP" property="optTime" />
+    <result column="opt_user" jdbcType="INTEGER" property="optUser" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, iidno, param_name, param_value, create_time, opt_time, opt_user, remark, shop_id, 
+    class_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_param
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_param
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByShopId" parameterType="java.lang.Integer">
+    delete from sys_param
+    where shop_id = #{shopId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.kyx.basic.sysparam.model.SysParam">
+    insert into sys_param
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="iidno != null">
+        iidno,
+      </if>
+      <if test="paramName != null">
+        param_name,
+      </if>
+      <if test="paramValue != null">
+        param_value,
+      </if>
+        create_time,
+      <if test="optTime != null">
+        opt_time,
+      </if>
+      <if test="optUser != null">
+        opt_user,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="className != null">
+        class_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="iidno != null">
+        #{iidno,jdbcType=INTEGER},
+      </if>
+      <if test="paramName != null">
+        #{paramName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramValue != null">
+        #{paramValue,jdbcType=VARCHAR},
+      </if>
+      now(),
+      <if test="optTime != null">
+        #{optTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="optUser != null">
+        #{optUser,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.basic.sysparam.model.SysParam">
+    update sys_param
+    <set>
+      <if test="iidno != null">
+        iidno = #{iidno,jdbcType=INTEGER},
+      </if>
+      <if test="paramName != null">
+        param_name = #{paramName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramValue != null">
+        param_value = #{paramValue,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="optTime != null">
+        opt_time = #{optTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="optUser != null">
+        opt_user = #{optUser,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="className != null">
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <select id="getByName"  resultMap="BaseResultMap">
+    select  * from sys_param  where  param_name = #{paramName,jdbcType=VARCHAR} and shop_id = #{shopId,jdbcType=INTEGER}
+  </select>
+  
+    <select id="getListByShopId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select  *  from sys_param   where shop_id = #{shopId,jdbcType=INTEGER}
+  </select>
+  
+   <insert id="insertBatches">
+      insert into sys_param (iidno, param_name,param_value,create_time,opt_time,opt_user,remark,shop_id,class_name)values 
+      <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.iidno},#{item.paramName},#{item.paramValue},#{item.createTime},#{item.optTime},#{item.optUser},#{item.remark}
+      ,#{item.shopId} ,#{item.className})
+      </foreach>  
+  </insert>
+</mapper>

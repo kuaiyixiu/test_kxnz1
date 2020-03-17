@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.wechatpublic.mapper.CardSetMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.wechatpublic.model.CardSet">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="card_name" jdbcType="VARCHAR" property="cardName" />
+    <result column="card_value" jdbcType="DECIMAL" property="cardValue" />
+    <result column="date_type" jdbcType="INTEGER" property="dateType" />
+    <result column="end_day" jdbcType="INTEGER" property="endDay" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="use_first" jdbcType="INTEGER" property="useFirst" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, card_name, card_value, date_type, end_day, end_date, use_first, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cardset
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cardset
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.wechatpublic.model.CardSet">
+    insert into cardset (id, card_name, card_value, 
+      date_type, end_day, end_date, 
+      use_first, remark)
+    values (#{id,jdbcType=INTEGER}, #{cardName,jdbcType=VARCHAR}, #{cardValue,jdbcType=DECIMAL}, 
+      #{dateType,jdbcType=INTEGER}, #{endDay,jdbcType=INTEGER}, #{endDate,jdbcType=DATE}, 
+      #{useFirst,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.wechatpublic.model.CardSet">
+    insert into cardset
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cardName != null">
+        card_name,
+      </if>
+      <if test="cardValue != null">
+        card_value,
+      </if>
+      <if test="dateType != null">
+        date_type,
+      </if>
+      <if test="endDay != null">
+        end_day,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="useFirst != null">
+        use_first,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cardName != null">
+        #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardValue != null">
+        #{cardValue,jdbcType=DECIMAL},
+      </if>
+      <if test="dateType != null">
+        #{dateType,jdbcType=INTEGER},
+      </if>
+      <if test="endDay != null">
+        #{endDay,jdbcType=INTEGER},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="useFirst != null">
+        #{useFirst,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.wechatpublic.model.CardSet">
+    update cardset
+    <set>
+      <if test="cardName != null">
+        card_name = #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardValue != null">
+        card_value = #{cardValue,jdbcType=DECIMAL},
+      </if>
+      <if test="dateType != null">
+        date_type = #{dateType,jdbcType=INTEGER},
+      </if>
+      <if test="endDay != null">
+        end_day = #{endDay,jdbcType=INTEGER},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="useFirst != null">
+        use_first = #{useFirst,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.wechatpublic.model.CardSet">
+    update cardset
+    set card_name = #{cardName,jdbcType=VARCHAR},
+      card_value = #{cardValue,jdbcType=DECIMAL},
+      date_type = #{dateType,jdbcType=INTEGER},
+      end_day = #{endDay,jdbcType=INTEGER},
+      end_date = #{endDate,jdbcType=DATE},
+      use_first = #{useFirst,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getInfo" parameterType="com.kyx.biz.wechatpublic.model.CardSet" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cardset where 1=1 
+    <if test="cardName != null">
+       and card_name like CONCAT('%', #{cardName}, '%')
+    </if>
+  </select>
+</mapper>

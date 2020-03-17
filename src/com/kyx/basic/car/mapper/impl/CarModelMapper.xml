@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.basic.car.mapper.CarModelMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.basic.car.model.CarModel">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="model_name" jdbcType="VARCHAR" property="modelName" />
+    <result column="series_id" jdbcType="INTEGER" property="seriesId" />
+    <result column="brand_id" jdbcType="INTEGER" property="brandId" />
+    <result column="year" jdbcType="VARCHAR" property="year" />
+    <result column="engine" jdbcType="VARCHAR" property="engine" />
+    <result column="engine_model" jdbcType="VARCHAR" property="engineModel" />
+    <result column="displacement" jdbcType="VARCHAR" property="displacement" />
+    <result column="gears_num" jdbcType="INTEGER" property="gearsNum" />
+    <result column="gearbox" jdbcType="VARCHAR" property="gearbox" />
+    <result column="gear" jdbcType="VARCHAR" property="gear" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, model_name, series_id, brand_id, `year`, engine, engine_model, displacement, 
+    gears_num, gearbox, gear
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from car_model
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="queryByBrandSeries" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from car_model
+      where series_id = #{seriesId,jdbcType=INTEGER}
+      <if test="year != null and year != ''"> and year = #{year,jdbcType=VARCHAR}</if>
+       order by model_name
+    </select>
+  <select id="queryCarModelYears" resultType="java.lang.String">
+    select distinct year
+    from car_model
+    where series_id = #{seriesId,jdbcType=INTEGER}
+    order by year
+  </select>
+  <select id="searchCarModelList" resultMap="BaseResultMap">
+    select m.*, b.first_char
+    from car_model m left join car_brand b on m.brand_id = b.id
+    where
+    <if test="search != null and search != ''">
+      m.model_name like CONCAT('%', #{search}, '%') or m.year like CONCAT('%', #{search}, '%')
+      or b.first_char like CONCAT('%', #{search}, '%')
+    </if>
+    order by b.first_char, b.brand_name, m.model_name
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from car_model
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.kyx.basic.car.model.CarModel" useGeneratedKeys="true">
+    insert into car_model (model_name, series_id, brand_id, 
+      `year`, engine, engine_model, 
+      displacement, gears_num, gearbox, 
+      gear)
+    values (#{modelName,jdbcType=VARCHAR}, #{seriesId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER}, 
+      #{year,jdbcType=VARCHAR}, #{engine,jdbcType=VARCHAR}, #{engineModel,jdbcType=VARCHAR}, 
+      #{displacement,jdbcType=VARCHAR}, #{gearsNum,jdbcType=INTEGER}, #{gearbox,jdbcType=VARCHAR}, 
+      #{gear,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.kyx.basic.car.model.CarModel" useGeneratedKeys="true">
+    insert into car_model
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelName != null">
+        model_name,
+      </if>
+      <if test="seriesId != null">
+        series_id,
+      </if>
+      <if test="brandId != null">
+        brand_id,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="engine != null">
+        engine,
+      </if>
+      <if test="engineModel != null">
+        engine_model,
+      </if>
+      <if test="displacement != null">
+        displacement,
+      </if>
+      <if test="gearsNum != null">
+        gears_num,
+      </if>
+      <if test="gearbox != null">
+        gearbox,
+      </if>
+      <if test="gear != null">
+        gear,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelName != null">
+        #{modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="seriesId != null">
+        #{seriesId,jdbcType=INTEGER},
+      </if>
+      <if test="brandId != null">
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="engine != null">
+        #{engine,jdbcType=VARCHAR},
+      </if>
+      <if test="engineModel != null">
+        #{engineModel,jdbcType=VARCHAR},
+      </if>
+      <if test="displacement != null">
+        #{displacement,jdbcType=VARCHAR},
+      </if>
+      <if test="gearsNum != null">
+        #{gearsNum,jdbcType=INTEGER},
+      </if>
+      <if test="gearbox != null">
+        #{gearbox,jdbcType=VARCHAR},
+      </if>
+      <if test="gear != null">
+        #{gear,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.basic.car.model.CarModel">
+    update car_model
+    <set>
+      <if test="modelName != null">
+        model_name = #{modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="seriesId != null">
+        series_id = #{seriesId,jdbcType=INTEGER},
+      </if>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        `year` = #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="engine != null">
+        engine = #{engine,jdbcType=VARCHAR},
+      </if>
+      <if test="engineModel != null">
+        engine_model = #{engineModel,jdbcType=VARCHAR},
+      </if>
+      <if test="displacement != null">
+        displacement = #{displacement,jdbcType=VARCHAR},
+      </if>
+      <if test="gearsNum != null">
+        gears_num = #{gearsNum,jdbcType=INTEGER},
+      </if>
+      <if test="gearbox != null">
+        gearbox = #{gearbox,jdbcType=VARCHAR},
+      </if>
+      <if test="gear != null">
+        gear = #{gear,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.basic.car.model.CarModel">
+    update car_model
+    set model_name = #{modelName,jdbcType=VARCHAR},
+      series_id = #{seriesId,jdbcType=INTEGER},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      `year` = #{year,jdbcType=VARCHAR},
+      engine = #{engine,jdbcType=VARCHAR},
+      engine_model = #{engineModel,jdbcType=VARCHAR},
+      displacement = #{displacement,jdbcType=VARCHAR},
+      gears_num = #{gearsNum,jdbcType=INTEGER},
+      gearbox = #{gearbox,jdbcType=VARCHAR},
+      gear = #{gear,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

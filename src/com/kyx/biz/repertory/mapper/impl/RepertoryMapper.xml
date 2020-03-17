@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.repertory.mapper.RepertoryMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.repertory.model.Repertory">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="supply_id" jdbcType="INTEGER" property="supplyId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="repertory_status" jdbcType="INTEGER" property="repertoryStatus" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="kind" jdbcType="INTEGER" property="kind" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="supply_name" jdbcType="VARCHAR" property="supplyName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, supply_id, remark, repertory_status, add_time, user_name, kind, shop_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select r.*,s.supply_name from repertory r left join supply s on r.supply_id=s.id
+    where r.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from repertory
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.repertory.model.Repertory">
+    insert into repertory (id, supply_id, remark, 
+      repertory_status, add_time, user_name, 
+      kind, shop_id)
+    values (#{id,jdbcType=INTEGER}, #{supplyId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{repertoryStatus,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{userName,jdbcType=VARCHAR}, 
+      #{kind,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.repertory.model.Repertory" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into repertory
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="supplyId != null">
+        supply_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="repertoryStatus != null">
+        repertory_status,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="kind != null">
+        kind,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="supplyId != null">
+        #{supplyId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="repertoryStatus != null">
+        #{repertoryStatus,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null">
+        #{kind,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.repertory.model.Repertory">
+    update repertory
+    <set>
+      <if test="supplyId != null">
+        supply_id = #{supplyId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="repertoryStatus != null">
+        repertory_status = #{repertoryStatus,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null">
+        kind = #{kind,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.repertory.model.Repertory">
+    update repertory
+    set supply_id = #{supplyId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      repertory_status = #{repertoryStatus,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      user_name = #{userName,jdbcType=VARCHAR},
+      kind = #{kind,jdbcType=INTEGER},
+      shop_id = #{shopId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getInfo" parameterType="com.kyx.biz.repertory.model.Repertory" resultMap="BaseResultMap">
+    select r.*,s.supply_name from repertory r left join supply s on r.supply_id=s.id where 1=1 
+    <if test="shopId != null">
+       and r.shop_id = #{shopId}
+    </if>
+    <if test="repertoryStatus != null">
+		<choose>
+			<when test="repertoryStatus == 450 ">
+				 and r.repertory_status in (4,5,0)
+			</when>
+			<otherwise>
+				and r.repertory_status = #{repertoryStatus}
+			</otherwise>
+		</choose>
+	</if>
+    
+    <if test="kind != null">
+       and r.kind = #{kind}
+    </if>
+    <if test="supplyName != null and supplyName !=''">
+      and s.supply_name like CONCAT(CONCAT('%', #{supplyName}), '%')
+    </if>
+    <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+      and (r.add_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+    </if>
+     order by r.add_time desc
+  </select>
+</mapper>

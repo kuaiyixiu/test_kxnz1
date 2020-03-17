@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.workflow.mapper.WorkflowInstanceMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.workflow.model.WorkflowInstance">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="template_id" jdbcType="INTEGER" property="templateId" />
+    <result column="slip_type" jdbcType="INTEGER" property="slipType" />
+    <result column="slip_id" jdbcType="INTEGER" property="slipId" />
+    <result column="current_instance_node_id" jdbcType="INTEGER" property="currentInstanceNodeId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_user" jdbcType="INTEGER" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, template_id, slip_type, slip_id, current_instance_node_id, 
+    name, status, create_user, create_time, end_time, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from oa_workflow_instance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from oa_workflow_instance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.kyx.biz.workflow.model.WorkflowInstance"   useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into oa_workflow_instance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="templateId != null">
+        template_id,
+      </if>
+      <if test="slipType != null">
+        slip_type,
+      </if>
+      <if test="slipId != null">
+        slip_id,
+      </if>
+      <if test="currentInstanceNodeId != null">
+        current_instance_node_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="templateId != null">
+        #{templateId,jdbcType=INTEGER},
+      </if>
+      <if test="slipType != null">
+        #{slipType,jdbcType=INTEGER},
+      </if>
+      <if test="slipId != null">
+        #{slipId,jdbcType=INTEGER},
+      </if>
+      <if test="currentInstanceNodeId != null">
+        #{currentInstanceNodeId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.workflow.model.WorkflowInstance">
+    update oa_workflow_instance
+    <set>
+      <if test="templateId != null">
+        template_id = #{templateId,jdbcType=INTEGER},
+      </if>
+      <if test="slipType != null">
+        slip_type = #{slipType,jdbcType=INTEGER},
+      </if>
+      <if test="slipId != null">
+        slip_id = #{slipId,jdbcType=INTEGER},
+      </if>
+      <if test="currentInstanceNodeId != null">
+        current_instance_node_id = #{currentInstanceNodeId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+   
+    <select id="getList" parameterType="com.kyx.biz.workflow.model.WorkflowInstance" resultMap="BaseResultMap">
+    select 
+   	i.*,n.name as currentInstanceNodeName
+    	from oa_workflow_instance i  
+    	left join  oa_workflow_instance_node n on i.current_instance_node_id = n.id  
+    	where 1=1
+   	<if test="slipType != null">
+        	and i.slip_type = #{slipType,jdbcType=INTEGER}
+      </if>
+       <if test="name != null">
+        	and i.name like CONCAT('%',#{name},'%')
+      </if>
+      <if test="status != null">
+        	and i.status = #{status,jdbcType=INTEGER}
+      </if>
+       <if test="createUser != null">
+        	and i.create_user = #{createUser,jdbcType=INTEGER}
+      </if>
+     order by i.id desc
+  </select>
+</mapper>

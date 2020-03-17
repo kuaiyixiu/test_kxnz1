@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.customMealDt.mapper.CustomMealDtMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.customMealDt.model.CustomMealDt">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="custom_meal_id" jdbcType="INTEGER" property="customMealId" />
+    <result column="cellphone" jdbcType="VARCHAR" property="cellphone" />
+    <result column="meal_dt_id" jdbcType="INTEGER" property="mealDtId" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="used" jdbcType="INTEGER" property="used" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="cust_name" jdbcType="VARCHAR" property="custName" />
+    <result column="item_id" jdbcType="INTEGER" property="itemId" />
+    <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="create_date" jdbcType="DATE" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, custom_meal_id, meal_dt_id, quantity, used
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from custom_meal_dt
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from custom_meal_dt
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.customMealDt.model.CustomMealDt">
+    insert into custom_meal_dt (id, custom_meal_id, meal_dt_id, 
+      quantity, used)
+    values (#{id,jdbcType=INTEGER}, #{customMealId,jdbcType=INTEGER}, #{mealDtId,jdbcType=INTEGER}, 
+      #{quantity,jdbcType=INTEGER}, #{used,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.customMealDt.model.CustomMealDt">
+    insert into custom_meal_dt
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customMealId != null">
+        custom_meal_id,
+      </if>
+      <if test="mealDtId != null">
+        meal_dt_id,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="used != null">
+        used,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="customMealId != null">
+        #{customMealId,jdbcType=INTEGER},
+      </if>
+      <if test="mealDtId != null">
+        #{mealDtId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="used != null">
+        #{used,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.customMealDt.model.CustomMealDt">
+    update custom_meal_dt
+    <set>
+      <if test="customMealId != null">
+        custom_meal_id = #{customMealId,jdbcType=INTEGER},
+      </if>
+      <if test="mealDtId != null">
+        meal_dt_id = #{mealDtId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="used != null">
+        used = #{used,jdbcType=INTEGER},
+      </if>
+       <if test="subQuantity != null">
+        quantity = quantity -  #{subQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="addQuantity != null">
+        quantity = quantity + #{addQuantity,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.customMealDt.model.CustomMealDt">
+    update custom_meal_dt
+    set custom_meal_id = #{customMealId,jdbcType=INTEGER},
+      meal_dt_id = #{mealDtId,jdbcType=INTEGER},
+      quantity = #{quantity,jdbcType=INTEGER},
+      used = #{used,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteByCustomMealId" parameterType="java.lang.Integer">
+    delete from custom_meal_dt
+    where  custom_meal_id = #{customMealId,jdbcType=INTEGER}
+  </delete>
+  
+  <select id="selectExpireCustomMeals"  resultMap="BaseResultMap">
+	select t4.item_id, t4.type , t2.card_no, t2.cust_name, 
+	t2.cellphone, t3.id, t3.quantity, t1.create_date, t1.end_date
+	from custom_meal t1  
+	INNER JOIN custom t2
+	on t1.cust_id = t2.id
+	INNER JOIN custom_meal_dt t3
+	ON t3.custom_meal_id = t1.id
+	INNER JOIN
+	meal_dt t4
+	ON t3.meal_dt_id = t4.id
+	
+	where 1=1
+	AND t3.used = 0 
+	<choose>
+        <when test="dateRangeStartTime !=null and dateRangeEndTime != null">
+            AND (t1.end_date between #{dateRangeStartTime, jdbcType=DATE} and #{dateRangeEndTime, jdbcType=TIMESTAMP})
+        </when>
+        <otherwise>
+            AND t1.end_date &lt;  now()
+        </otherwise>
+    </choose>
+  </select>
+  
+  <select id="selectCustMealById"  resultMap="BaseResultMap">
+	select  c.*,m.item_id,m.type from custom_meal_dt c inner join meal_dt m on m.id = c.meal_dt_id 
+	INNER JOIN custom_meal cm on cm.id = c.custom_meal_id
+  	where c.id =  #{id,jdbcType=INTEGER}  and cm.cust_id=#{custId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectShopIdByCustMealDtId"  resultType="java.lang.Integer"  parameterType="java.lang.Integer">
+  	select m.shop_id from meal m inner join custom_meal cm on m.id = cm.meal_id  
+  	inner join custom_meal_dt dt on dt.custom_meal_id = cm.id  where dt.id = #{id,jdbcType=INTEGER}
+  </select>
+    
+  
+  <select id="selectExpireCustomMealsCount"  resultType="java.lang.Integer">
+    select count(*) from custom_meal 
+    	where end_date between #{dateRangeStartTime, jdbcType=DATE} and #{dateRangeEndTime, jdbcType=TIMESTAMP}
+   </select>
+</mapper>

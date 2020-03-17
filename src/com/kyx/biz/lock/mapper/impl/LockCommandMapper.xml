@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.lock.mapper.LockCommandMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.lock.model.LockCommand">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="command" jdbcType="VARCHAR" property="command" />
+    <result column="lock_number" jdbcType="INTEGER" property="lockNumber" />
+    <result column="box_address" jdbcType="INTEGER" property="boxAddress" />
+    <result column="lock_address" jdbcType="VARCHAR" property="lockAddress" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="enabled" jdbcType="INTEGER" property="enabled" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, command, lock_number, box_address, lock_address, type, enabled
+  </sql>
+  <select id="selectByExample" parameterType="com.kyx.biz.lock.model.LockCommandExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from lock_command
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lock_command
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lock_command
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kyx.biz.lock.model.LockCommandExample">
+    delete from lock_command
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.lock.model.LockCommand">
+    insert into lock_command (id, command, lock_number, 
+      box_address, lock_address, type, 
+      enabled)
+    values (#{id,jdbcType=INTEGER}, #{command,jdbcType=VARCHAR}, #{lockNumber,jdbcType=INTEGER}, 
+      #{boxAddress,jdbcType=INTEGER}, #{lockAddress,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{enabled,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.lock.model.LockCommand">
+    insert into lock_command
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="command != null">
+        command,
+      </if>
+      <if test="lockNumber != null">
+        lock_number,
+      </if>
+      <if test="boxAddress != null">
+        box_address,
+      </if>
+      <if test="lockAddress != null">
+        lock_address,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="enabled != null">
+        enabled,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="command != null">
+        #{command,jdbcType=VARCHAR},
+      </if>
+      <if test="lockNumber != null">
+        #{lockNumber,jdbcType=INTEGER},
+      </if>
+      <if test="boxAddress != null">
+        #{boxAddress,jdbcType=INTEGER},
+      </if>
+      <if test="lockAddress != null">
+        #{lockAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kyx.biz.lock.model.LockCommandExample" resultType="java.lang.Long">
+    select count(*) from lock_command
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update lock_command
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.command != null">
+        command = #{record.command,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lockNumber != null">
+        lock_number = #{record.lockNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.boxAddress != null">
+        box_address = #{record.boxAddress,jdbcType=INTEGER},
+      </if>
+      <if test="record.lockAddress != null">
+        lock_address = #{record.lockAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.enabled != null">
+        enabled = #{record.enabled,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update lock_command
+    set id = #{record.id,jdbcType=INTEGER},
+      command = #{record.command,jdbcType=VARCHAR},
+      lock_number = #{record.lockNumber,jdbcType=INTEGER},
+      box_address = #{record.boxAddress,jdbcType=INTEGER},
+      lock_address = #{record.lockAddress,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      enabled = #{record.enabled,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.lock.model.LockCommand">
+    update lock_command
+    <set>
+      <if test="command != null">
+        command = #{command,jdbcType=VARCHAR},
+      </if>
+      <if test="lockNumber != null">
+        lock_number = #{lockNumber,jdbcType=INTEGER},
+      </if>
+      <if test="boxAddress != null">
+        box_address = #{boxAddress,jdbcType=INTEGER},
+      </if>
+      <if test="lockAddress != null">
+        lock_address = #{lockAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="enabled != null">
+        enabled = #{enabled,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.lock.model.LockCommand">
+    update lock_command
+    set command = #{command,jdbcType=VARCHAR},
+      lock_number = #{lockNumber,jdbcType=INTEGER},
+      box_address = #{boxAddress,jdbcType=INTEGER},
+      lock_address = #{lockAddress,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      enabled = #{enabled,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByLockNumber" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lock_command
+    where lock_number = #{lockNumber,jdbcType=INTEGER}
+  </select>
+</mapper>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.product.mapper.ProductChangeMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.product.model.ProductChange">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="change_time" jdbcType="TIMESTAMP" property="changeTime" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="change_reason" jdbcType="VARCHAR" property="changeReason" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="before_count" jdbcType="INTEGER" property="beforeCount" />
+    <result column="after_count" jdbcType="INTEGER" property="afterCount" />
+    <result column="relation_id" jdbcType="INTEGER" property="relationId" />
+    <result column="opt_user" jdbcType="VARCHAR" property="optUser" />
+    <result column="change_reason_id" jdbcType="INTEGER" property="changeReasonId" />
+    <result column="change_amt" jdbcType="DECIMAL" property="changeAmt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, change_time, product_id, change_reason, type, count, before_count, after_count, 
+    relation_id, opt_user, change_reason_id,change_amt
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from product_change
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from product_change
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.product.model.ProductChange">
+    insert into product_change (id, change_time, product_id, 
+      change_reason, type, count, 
+      before_count, after_count, relation_id, 
+      opt_user, change_reason_id,change_amt)
+    values (#{id,jdbcType=INTEGER}, #{changeTime,jdbcType=TIMESTAMP}, #{productId,jdbcType=INTEGER}, 
+      #{changeReason,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}, 
+      #{beforeCount,jdbcType=INTEGER}, #{afterCount,jdbcType=INTEGER}, #{relationId,jdbcType=INTEGER}, 
+      #{optUser,jdbcType=VARCHAR}, #{changeReasonId,jdbcType=INTEGER}, #{changeAmt,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.product.model.ProductChange">
+    insert into product_change
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="changeTime != null">
+        change_time,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="changeReason != null">
+        change_reason,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="beforeCount != null">
+        before_count,
+      </if>
+      <if test="afterCount != null">
+        after_count,
+      </if>
+      <if test="relationId != null">
+        relation_id,
+      </if>
+      <if test="optUser != null">
+        opt_user,
+      </if>
+      <if test="changeReasonId != null">
+        change_reason_id,
+      </if>
+      <if test="changeAmt != null">
+        change_amt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="changeTime != null">
+        #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="changeReason != null">
+        #{changeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="beforeCount != null">
+        #{beforeCount,jdbcType=INTEGER},
+      </if>
+      <if test="afterCount != null">
+        #{afterCount,jdbcType=INTEGER},
+      </if>
+      <if test="relationId != null">
+        #{relationId,jdbcType=INTEGER},
+      </if>
+      <if test="optUser != null">
+        #{optUser,jdbcType=VARCHAR},
+      </if>
+      <if test="changeReasonId != null">
+        #{changeReasonId,jdbcType=INTEGER},
+      </if>
+      <if test="changeAmt != null">
+        #{changeAmt,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.product.model.ProductChange">
+    update product_change
+    <set>
+      <if test="changeTime != null">
+        change_time = #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="changeReason != null">
+        change_reason = #{changeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="beforeCount != null">
+        before_count = #{beforeCount,jdbcType=INTEGER},
+      </if>
+      <if test="afterCount != null">
+        after_count = #{afterCount,jdbcType=INTEGER},
+      </if>
+      <if test="relationId != null">
+        relation_id = #{relationId,jdbcType=INTEGER},
+      </if>
+      <if test="optUser != null">
+        opt_user = #{optUser,jdbcType=VARCHAR},
+      </if>
+      <if test="changeReasonId != null">
+        change_reason_id = #{changeReasonId,jdbcType=INTEGER},
+      </if>
+      <if test="changeAmt != null">
+        change_amt=#{changeAmt,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.product.model.ProductChange">
+    update product_change
+    set change_time = #{changeTime,jdbcType=TIMESTAMP},
+      product_id = #{productId,jdbcType=INTEGER},
+      change_reason = #{changeReason,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      count = #{count,jdbcType=INTEGER},
+      before_count = #{beforeCount,jdbcType=INTEGER},
+      after_count = #{afterCount,jdbcType=INTEGER},
+      relation_id = #{relationId,jdbcType=INTEGER},
+      opt_user = #{optUser,jdbcType=VARCHAR},
+      change_amt=#{changeAmt,jdbcType=DECIMAL},
+      change_reason_id = #{changeReasonId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+   <insert id="insertBatches">
+      insert into product_change (change_time, product_id,change_reason, type, count,before_count, after_count, relation_id,opt_user, change_reason_id,change_amt) values 
+      <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.changeTime,jdbcType=TIMESTAMP}, #{item.productId,jdbcType=INTEGER},#{item.changeReason,jdbcType=VARCHAR}, #{item.type,jdbcType=INTEGER}, #{item.count,jdbcType=INTEGER}, 
+      #{item.beforeCount,jdbcType=INTEGER}, #{item.afterCount,jdbcType=INTEGER}, #{item.relationId,jdbcType=INTEGER},#{item.optUser,jdbcType=VARCHAR}, #{item.changeReasonId,jdbcType=INTEGER},#{item.changeAmt,jdbcType=DECIMAL})
+      </foreach>  
+  </insert>
+  <select id="getInfo" parameterType="com.kyx.biz.product.model.ProductChange" resultMap="BaseResultMap">
+    select * from product_change  where 1=1 
+    <if test="productId != null">
+       and product_id = #{productId}
+    </if>
+     order by change_time desc
+  </select>
+</mapper>

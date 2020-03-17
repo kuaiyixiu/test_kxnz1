@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.workflow.mapper.WorkflowInstanceNodeMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.workflow.model.WorkflowInstanceNode">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="iidno" jdbcType="INTEGER" property="iidno" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="instance_id" jdbcType="INTEGER" property="instanceId" />
+    <result column="node_id" jdbcType="INTEGER" property="nodeId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, iidno, instance_id, node_id, name, status, create_time, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from oa_workflow_instance_node
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from oa_workflow_instance_node
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.kyx.biz.workflow.model.WorkflowInstanceNode"   useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into oa_workflow_instance_node
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="iidno != null">
+        iidno,
+      </if>
+      <if test="instanceId != null">
+        instance_id,
+      </if>
+      <if test="nodeId != null">
+        node_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+        create_time,
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="iidno != null">
+        #{iidno,jdbcType=INTEGER},
+      </if>
+      <if test="instanceId != null">
+        #{instanceId,jdbcType=INTEGER},
+      </if>
+      <if test="nodeId != null">
+        #{nodeId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+ 		now(),
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.workflow.model.WorkflowInstanceNode">
+    update oa_workflow_instance_node
+    <set>
+      <if test="iidno != null">
+        iidno = #{iidno,jdbcType=INTEGER},
+      </if>
+      <if test="instanceId != null">
+        instance_id = #{instanceId,jdbcType=INTEGER},
+      </if>
+      <if test="nodeId != null">
+        node_id = #{nodeId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getCheckList" parameterType="com.kyx.biz.workflow.model.WorkflowInstanceNode" resultMap="BaseResultMap">
+  	select n.*,i.name as instanceName,i.slip_type as instanceSlipType,i.slip_id as instanceSlipId,
+  	i.status as instanceStatus,u.result,u.opt_time as optTime
+  	from oa_workflow_instance_node n 
+  	INNER JOIN oa_workflow_node_user user on user.node_id = n.node_id
+	LEFT JOIN oa_workflow_instance i on n.instance_id = i.id
+	LEFT JOIN oa_workflow_check_user u on u.instance_node_id = n.id  and u.opt_user = #{checkUser,jdbcType=INTEGER}
+	where n.status = 1   and user.user_id = #{checkUser,jdbcType=INTEGER}
+  </select>
+  
+   <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select  inode.*,n.type,i.name as instanceName
+    from oa_workflow_instance_node inode 
+    left join oa_workflow_node n on inode.node_id = n.id
+    LEFT JOIN oa_workflow_instance i on inode.instance_id = i.id
+    where inode.id = #{id,jdbcType=INTEGER}
+  </select>
+  
+    <select id="getListByNodeId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from oa_workflow_instance_node  where node_id = #{nodeId,jdbcType=INTEGER}
+  </select>
+    <select id="getMaxIidnoByInstanceId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select ifnull(max(iidno),0) from oa_workflow_instance_node  where  instance_id = #{instanceId,jdbcType=INTEGER}
+  </select>
+  
+   <select id="getList" parameterType="com.kyx.biz.workflow.model.WorkflowInstanceNode" resultMap="BaseResultMap">
+    select 
+   		n.*,node.type
+    	from oa_workflow_instance_node n
+    	left join oa_workflow_node node on n.node_id = node.id
+    	where 1=1
+   	 <if test="instanceId != null">
+         and n.instance_id = #{instanceId,jdbcType=INTEGER}
+      </if>
+      <if test="nodeId != null">
+        and n.node_id = #{nodeId,jdbcType=INTEGER}
+      </if>
+      <if test="name != null">
+        and n.name like CONCAT('%',#{name},'%')
+      </if>
+      <if test="status != null">
+        and n.status = #{status,jdbcType=INTEGER}
+      </if>
+     order by n.iidno
+  </select>
+</mapper>

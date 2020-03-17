@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.orders.mapper.OrdersEvaluateMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.orders.model.OrdersEvaluate">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="cust_id" jdbcType="INTEGER" property="custId" />
+    <result column="stars" jdbcType="INTEGER" property="stars" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="cust_name" jdbcType="VARCHAR" property="custName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id, cust_id, stars, remark, add_time,shop_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from orders_evaluate
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from orders_evaluate
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.kyx.biz.orders.model.OrdersEvaluate">
+    insert into orders_evaluate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="custId != null">
+        cust_id,
+      </if>
+      <if test="stars != null">
+        stars,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null">
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="stars != null">
+        #{stars,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.orders.model.OrdersEvaluate">
+    update orders_evaluate
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null">
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="stars != null">
+        stars = #{stars,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <select id="getList"  resultMap="BaseResultMap" parameterType="com.kyx.biz.orders.model.OrdersEvaluate">
+    select 
+    <include refid="Base_Column_List" />
+    	from orders_evaluate   where 1=1
+    <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+      	and (add_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+    </if>
+    <if test="stars != null">
+        and stars = #{stars,jdbcType=INTEGER}
+    </if>
+     <if test="shopId != null">
+        and shop_id = #{shopId,jdbcType=INTEGER}
+     </if>
+     order by add_time asc
+  </select>
+  
+    <select id="getCustList"  resultMap="BaseResultMap" parameterType="com.kyx.biz.orders.model.OrdersEvaluate">
+    select oe.*,c.cust_name
+    	from orders_evaluate oe left join custom c on c.id = oe.cust_id  where 1=1
+    <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+      	and (oe.add_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+    </if>
+    <if test="stars != null">
+        and oe.stars = #{stars,jdbcType=INTEGER}
+    </if>
+      <if test="shopId != null">
+        and oe.shop_id = #{shopId,jdbcType=INTEGER}
+     </if>
+     order by oe.add_time asc
+  </select>
+</mapper>

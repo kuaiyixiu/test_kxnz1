@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.pay.mapper.CommunityMealMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.pay.model.CommunityMeal">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="month" jdbcType="INTEGER" property="month" />
+    <result column="title" jdbcType="INTEGER" property="title" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, `month`, title, money
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from community_meal
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from community_meal
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.kyx.biz.pay.model.CommunityMeal"
+          useGeneratedKeys="true">
+    insert into community_meal (`month`, title, money
+      )
+    values (#{month,jdbcType=INTEGER}, #{title,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.kyx.biz.pay.model.CommunityMeal"
+          useGeneratedKeys="true">
+    insert into community_meal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="month != null">
+        `month`,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="month != null">
+        #{month,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.pay.model.CommunityMeal">
+    update community_meal
+    <set>
+      <if test="month != null">
+        `month` = #{month,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.pay.model.CommunityMeal">
+    update community_meal
+    set `month` = #{month,jdbcType=INTEGER},
+      title = #{title,jdbcType=INTEGER},
+      money = #{money,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

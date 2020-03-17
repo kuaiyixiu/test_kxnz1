@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.basic.sysparam.mapper.SysBasicInfoMapper">
+    <resultMap id="BaseResultMap" type="com.kyx.basic.sysparam.model.SysBasicInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="flag" jdbcType="INTEGER" property="flag"/>
+        <result column="sign" jdbcType="VARCHAR" property="sign"/>
+        <result column="value" jdbcType="VARCHAR" property="value"/>
+        <result column="href" jdbcType="VARCHAR" property="href"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, flag, sign, `value`, href, remarks
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_basic_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="queryBasicInfosByFlag" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_basic_info
+        where flag = #{flag,jdbcType=INTEGER}
+    </select>
+    <select id="queryBasicInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_basic_info
+        where flag = #{flag,jdbcType=INTEGER} and sign = #{sign,jdbcType=VARCHAR} limit 1
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="Integer">
+    delete from sys_basic_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.kyx.basic.sysparam.model.SysBasicInfo"
+            useGeneratedKeys="true">
+    insert into sys_basic_info (flag, sign, `value`,
+      href, remarks)
+    values (#{flag,jdbcType=INTEGER}, #{sign,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR},
+      #{href,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.kyx.basic.sysparam.model.SysBasicInfo" useGeneratedKeys="true">
+        insert into sys_basic_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="sign != null">
+                sign,
+            </if>
+            <if test="value != null">
+                `value`,
+            </if>
+            <if test="href != null">
+                href,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flag != null">
+                #{flag,jdbcType=INTEGER},
+            </if>
+            <if test="sign != null">
+                #{sign,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null">
+                #{value,jdbcType=VARCHAR},
+            </if>
+            <if test="href != null">
+                #{href,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                #{remarks,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.kyx.basic.sysparam.model.SysBasicInfo">
+        update sys_basic_info
+        <set>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=INTEGER},
+            </if>
+            <if test="sign != null">
+                sign = #{sign,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null">
+                `value` = #{value,jdbcType=VARCHAR},
+            </if>
+            <if test="href != null">
+                href = #{href,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                remarks = #{remarks,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.kyx.basic.sysparam.model.SysBasicInfo">
+    update sys_basic_info
+    set flag = #{flag,jdbcType=INTEGER},
+      sign = #{sign,jdbcType=VARCHAR},
+      `value` = #{value,jdbcType=VARCHAR},
+      href = #{href,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

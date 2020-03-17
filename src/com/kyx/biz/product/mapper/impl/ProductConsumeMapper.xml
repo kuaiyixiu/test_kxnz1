@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.product.mapper.ProductConsumeMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.product.model.ProductConsume">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_repertory_id" jdbcType="INTEGER" property="productRepertoryId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="kind" jdbcType="INTEGER" property="kind" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, product_repertory_id, order_id, quantity, add_time,kind,product_id,shop_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from product_consume
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selecyByOrder" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from product_consume
+    where product_repertory_id = #{productRepertoryId,jdbcType=INTEGER} 
+    	and order_id =  #{orderId,jdbcType=INTEGER}
+    	and product_id =  #{productId,jdbcType=INTEGER}
+    	and kind = 1 
+  </select>
+  
+  <select id="selecyListByOrder" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from product_consume
+    where 
+    	order_id =  #{orderId,jdbcType=INTEGER}
+    	and product_id =  #{productId,jdbcType=INTEGER}
+    	and kind = 1 
+    	order by add_time
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from product_consume
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByOrderId" parameterType="java.lang.Integer">
+    delete from product_consume
+    where order_id = #{orderId,jdbcType=INTEGER} and kind = #{kind,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.kyx.biz.product.model.ProductConsume">
+    insert into product_consume
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productRepertoryId != null">
+        product_repertory_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+        add_time,
+      <if test="kind != null">
+        kind,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productRepertoryId != null">
+        #{productRepertoryId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      now(),
+      <if test="kind != null">
+        #{kind,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.product.model.ProductConsume">
+    update product_consume
+    <set>
+      <if test="productRepertoryId != null">
+        product_repertory_id = #{productRepertoryId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+        add_time = now(),
+      <if test="kind != null">
+        kind = #{kind,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+	   <if test="subQuantity != null">
+			quantity = quantity - #{subQuantity,jdbcType=INTEGER},
+		</if>
+		<if test="addQuantity != null">
+			quantity = quantity + #{addQuantity,jdbcType=INTEGER},
+		</if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+       <insert id="insertBatches"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+      insert into product_consume (product_repertory_id, order_id, quantity, add_time,kind,product_id,shop_id)values 
+      <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.productRepertoryId},#{item.orderId},#{item.quantity},now(),#{item.kind},#{item.productId},#{item.shopId})
+      </foreach>  
+  </insert>
+  
+  
+  <select id="getList"  resultMap="BaseResultMap" parameterType="com.kyx.biz.product.model.ProductConsume">
+    select 
+    <include refid="Base_Column_List" />
+    	from product_consume   where 1=1
+    <if test="orderId != null">
+        and order_id = #{orderId,jdbcType=INTEGER}
+      </if>
+      <if test="kind != null">
+        and kind = #{kind,jdbcType=INTEGER}
+      </if>
+       <if test="productRepertoryId != null">
+        and product_repertory_id = #{productRepertoryId,jdbcType=INTEGER}
+      </if>
+     order by add_time desc
+  </select>
+  
+  
+  <select id="getPriceList"  resultMap="BaseResultMap" parameterType="com.kyx.biz.product.model.ProductConsume">
+    select pc.order_id,pc.quantity,pr.price,pr.add_time,pc.add_time as consumeDate  from product_consume  pc inner join product_repertory pr on pr.id = pc.product_repertory_id where 1=1
+     <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+      	and (pc.add_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+    </if>
+    <if test="kind != null">
+        and pc.kind = #{kind,jdbcType=INTEGER}
+    </if>
+     order by pc.add_time desc
+  </select>
+  
+  
+  
+  
+  
+</mapper>

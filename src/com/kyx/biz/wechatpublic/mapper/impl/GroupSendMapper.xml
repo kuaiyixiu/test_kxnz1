@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.wechatpublic.mapper.GroupSendMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.wechatpublic.model.GroupSend">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="send_user_type" jdbcType="INTEGER" property="sendUserType" />
+    <result column="tag_id" jdbcType="VARCHAR" property="tagId" />
+    <result column="content_type" jdbcType="INTEGER" property="contentType" />
+    <result column="send_content" jdbcType="VARCHAR" property="sendContent" />
+    <result column="media_id" jdbcType="VARCHAR" property="mediaId" />
+    <result column="choose_openids" jdbcType="VARCHAR" property="chooseOpenids" />
+    <result column="user_count" jdbcType="INTEGER" property="userCount" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="send_status" jdbcType="INTEGER" property="sendStatus" />
+    <result column="error_msg" jdbcType="VARCHAR" property="errorMsg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, send_user_type, tag_id, content_type, send_content, media_id, choose_openids, 
+    user_count, app_id, create_time, send_status,error_msg
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wxcms_group_send
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wxcms_group_send
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.kyx.biz.wechatpublic.model.GroupSend">
+    insert into wxcms_group_send
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sendUserType != null">
+        send_user_type,
+      </if>
+      <if test="tagId != null">
+        tag_id,
+      </if>
+      <if test="contentType != null">
+        content_type,
+      </if>
+      <if test="sendContent != null">
+        send_content,
+      </if>
+      <if test="mediaId != null">
+        media_id,
+      </if>
+      <if test="chooseOpenids != null">
+        choose_openids,
+      </if>
+      <if test="userCount != null">
+        user_count,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="sendStatus != null">
+        send_status,
+      </if>
+      <if test="errorMsg != null">
+        error_msg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sendUserType != null">
+        #{sendUserType,jdbcType=INTEGER},
+      </if>
+      <if test="tagId != null">
+        #{tagId,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null">
+        #{contentType,jdbcType=INTEGER},
+      </if>
+      <if test="sendContent != null">
+        #{sendContent,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaId != null">
+        #{mediaId,jdbcType=VARCHAR},
+      </if>
+      <if test="chooseOpenids != null">
+        #{chooseOpenids,jdbcType=VARCHAR},
+      </if>
+      <if test="userCount != null">
+        #{userCount,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendStatus != null">
+        #{sendStatus,jdbcType=INTEGER},
+      </if>
+       <if test="errorMsg != null">
+         #{errorMsg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.wechatpublic.model.GroupSend">
+    update wxcms_group_send
+    <set>
+      <if test="sendUserType != null">
+        send_user_type = #{sendUserType,jdbcType=INTEGER},
+      </if>
+      <if test="tagId != null">
+        tag_id = #{tagId,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null">
+        content_type = #{contentType,jdbcType=INTEGER},
+      </if>
+      <if test="sendContent != null">
+        send_content = #{sendContent,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaId != null">
+        media_id = #{mediaId,jdbcType=VARCHAR},
+      </if>
+      <if test="chooseOpenids != null">
+        choose_openids = #{chooseOpenids,jdbcType=VARCHAR},
+      </if>
+      <if test="userCount != null">
+        user_count = #{userCount,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendStatus != null">
+        send_status = #{sendStatus,jdbcType=INTEGER},
+      </if>
+      <if test="errorMsg != null">
+        error_msg = #{errorMsg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <select id="getList" parameterType="com.kyx.biz.wechatpublic.model.GroupSend" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    	from wxcms_group_send   where 1=1
+   		 <if test="sendUserType != null">
+        	and send_user_type = #{sendUserType,jdbcType=INTEGER}
+      	</if>
+      <if test="tagId != null">
+        	and tag_id = #{tagId,jdbcType=VARCHAR}
+      </if>
+      <if test="contentType != null">
+        	and content_type = #{contentType,jdbcType=INTEGER}
+      </if>
+      <if test="sendContent != null">
+        	and send_content = #{sendContent,jdbcType=VARCHAR}
+      </if>
+      <if test="mediaId != null">
+        	and media_id = #{mediaId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendStatus != null">
+        send_status = #{sendStatus,jdbcType=INTEGER},
+      </if>
+      <if test="errorMsg != null">
+        error_msg = #{errorMsg,jdbcType=VARCHAR},
+      </if>
+        <if test="dateRangeStartTime != null and dateRangeEndTime != null">
+      	and (create_time between #{dateRangeStartTime,jdbcType=TIMESTAMP} and #{dateRangeEndTime,jdbcType=TIMESTAMP})
+   		 </if>
+     order by id desc
+  </select>
+  
+</mapper>

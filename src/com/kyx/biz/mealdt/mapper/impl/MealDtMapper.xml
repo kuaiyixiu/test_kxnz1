@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.mealdt.mapper.MealDtMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.mealdt.model.MealDt">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="meal_id" jdbcType="INTEGER" property="mealId" />
+    <result column="item_id" jdbcType="INTEGER" property="itemId" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="custom_meal_id" jdbcType="INTEGER" property="customMealId" />
+    <result column="used" jdbcType="INTEGER" property="used" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, type, meal_id, item_id, quantity
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from meal_dt
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from meal_dt
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.mealdt.model.MealDt">
+    insert into meal_dt (id, type, meal_id, 
+      item_id, quantity)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{mealId,jdbcType=INTEGER}, 
+      #{itemId,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.mealdt.model.MealDt">
+    insert into meal_dt
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="mealId != null">
+        meal_id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="mealId != null">
+        #{mealId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.mealdt.model.MealDt">
+    update meal_dt
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="mealId != null">
+        meal_id = #{mealId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.mealdt.model.MealDt">
+    update meal_dt
+    set type = #{type,jdbcType=INTEGER},
+      meal_id = #{mealId,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=INTEGER},
+      quantity = #{quantity,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectMeals" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from meal_dt 
+    where meal_id = #{mealId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectCustomMealDts" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select t1.id as id, t2.type, t2.item_id, t1.quantity
+   	from custom_meal_dt t1 LEFT JOIN meal_dt t2
+    on t1.meal_dt_id = t2.id
+   	where t1.custom_meal_id = #{id} and t1.quantity &gt; 0
+   	and t1.used = 0
+  </select>
+  <select id="getCountByTypeAndId" resultMap="BaseResultMap">
+  	select count(*) from meal_dt where type=#{type,jdbcType=INTEGER} and item_id = #{itemId,jdbcType=INTEGER}
+  </select>
+</mapper>

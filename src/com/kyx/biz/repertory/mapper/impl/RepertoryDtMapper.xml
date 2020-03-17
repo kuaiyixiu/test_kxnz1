@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.repertory.mapper.RepertoryDtMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.repertory.model.RepertoryDt">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="iidno" jdbcType="INTEGER" property="iidno" />
+    <result column="repertory" jdbcType="INTEGER" property="repertory" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="inprice" jdbcType="DECIMAL" property="inprice" />
+    <result column="sum" jdbcType="DECIMAL" property="sum" />
+    <result column="in_quantity" jdbcType="INTEGER" property="inQuantity" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="quantity" jdbcType="VARCHAR" property="quantity" />
+    <result column="product_type" jdbcType="VARCHAR" property="productType" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, iidno, repertory, product_id, inprice, in_quantity, remark,sum
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from repertory_dt
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from repertory_dt
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.biz.repertory.model.RepertoryDt">
+    insert into repertory_dt (id, iidno, repertory, 
+      product_id, inprice, in_quantity, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{iidno,jdbcType=INTEGER}, #{repertory,jdbcType=INTEGER}, 
+      #{productId,jdbcType=INTEGER}, #{inprice,jdbcType=DECIMAL}, #{inQuantity,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.biz.repertory.model.RepertoryDt">
+    insert into repertory_dt
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="iidno != null">
+        iidno,
+      </if>
+      <if test="repertory != null">
+        repertory,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="inprice != null">
+        inprice,
+      </if>
+      <if test="inQuantity != null">
+        in_quantity,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="sum != null">
+        sum,
+      </if>  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="iidno != null">
+        #{iidno,jdbcType=INTEGER},
+      </if>
+      <if test="repertory != null">
+        #{repertory,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="inprice != null">
+        #{inprice,jdbcType=DECIMAL},
+      </if>
+      <if test="inQuantity != null">
+        #{inQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sum != null">
+        #{sum,jdbcType=DECIMAL},
+      </if> 
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.repertory.model.RepertoryDt">
+    update repertory_dt
+    <set>
+      <if test="iidno != null">
+        iidno = #{iidno,jdbcType=INTEGER},
+      </if>
+      <if test="repertory != null">
+        repertory = #{repertory,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="inprice != null">
+        inprice = #{inprice,jdbcType=DECIMAL},
+      </if>
+      <if test="inQuantity != null">
+        in_quantity = #{inQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sum != null">
+        sum=#{sum,jdbcType=DECIMAL},
+      </if> 
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.biz.repertory.model.RepertoryDt">
+    update repertory_dt
+    set iidno = #{iidno,jdbcType=INTEGER},
+      repertory = #{repertory,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      inprice = #{inprice,jdbcType=DECIMAL},
+      in_quantity = #{inQuantity,jdbcType=INTEGER},
+      sum=#{sum,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getInfo" parameterType="com.kyx.biz.repertory.model.RepertoryDt" resultMap="BaseResultMap">
+    select r.*,p.product_name,p.quantity,p.product_type,p.price,pc.class_name from repertory_dt r left join product p on r.product_id=p.id  left join product_class pc on p.class_id=pc.id where 1=1 
+    <if test="repertory != null">
+       and r.repertory = #{repertory}
+    </if>
+    <if test="productId != null">
+       and r.product_id = #{productId}
+    </if>
+    <if test="iidno != null">
+       and r.iidno = #{iidno}
+    </if>
+  </select>
+  <delete id="deleteByRepertoryId" parameterType="java.lang.Integer">
+    delete from repertory_dt
+    where repertory = #{repertoryId,jdbcType=INTEGER}
+  </delete>
+  <select id="getRepertoryInfo" parameterType="com.kyx.biz.repertory.model.RepertoryDt" resultMap="BaseResultMap">
+    select r.*,p.product_name,pr.quantity,p.product_type  from repertory_dt r inner join product_repertory pr on r.repertory=pr.repertory_id and r.product_id=pr.product_id and r.inprice=pr.price left join product p on r.product_id=p.id  where 1=1 
+    <if test="repertory != null">
+       and r.repertory = #{repertory}
+    </if>
+    <if test="productId != null">
+       and r.product_id = #{productId}
+    </if>
+  </select>
+  
+  
+  
+  <select id="getRepertoryBack" parameterType="com.kyx.biz.repertory.model.RepertoryDt" resultMap="BaseResultMap">
+    select r.*,pr.quantity,pr.price from repertory_dt r inner join product_repertory pr on pr.id = r.iidno where 1=1 
+    <if test="repertory != null">
+       and r.repertory = #{repertory}
+    </if>
+    <if test="productId != null">
+       and r.product_id = #{productId}
+    </if>
+  </select>
+  <insert id="insertBatches">
+      insert into repertory_dt (iidno,repertory, product_id, inprice, in_quantity, remark)values 
+      <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.iidno,jdbcType=INTEGER},#{item.repertory,jdbcType=INTEGER}, #{item.productId,jdbcType=INTEGER}, #{item.inprice,jdbcType=DECIMAL}, 
+      #{item.inQuantity,jdbcType=INTEGER},#{item.remark,jdbcType=VARCHAR})
+      </foreach>  
+  </insert>
+  
+</mapper>

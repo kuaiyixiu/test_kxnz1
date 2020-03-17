@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.basic.car.mapper.CarBrandMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.basic.car.model.CarBrand">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="first_char" jdbcType="CHAR" property="firstChar" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
+    <result column="logo_url" jdbcType="VARCHAR" property="logoUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, first_char, brand_name, logo_url, category_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from car_brand
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="queryByCategory" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from car_brand
+      where category_id = #{categoryId,jdbcType=INTEGER} order by first_char
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from car_brand
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.kyx.basic.car.model.CarBrand" useGeneratedKeys="true">
+    insert into car_brand (first_char, brand_name, logo_url, category_id
+      )
+    values (#{firstChar,jdbcType=CHAR}, #{brandName,jdbcType=VARCHAR},
+        #{logoUrl,jdbcType=VARCHAR},#{categoryId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.kyx.basic.car.model.CarBrand" useGeneratedKeys="true">
+    insert into car_brand
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="firstChar != null">
+        first_char,
+      </if>
+      <if test="brandName != null">
+        brand_name,
+      </if>
+      <if test="logoUrl != null">
+        logo_url,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="firstChar != null">
+        #{firstChar,jdbcType=CHAR},
+      </if>
+      <if test="brandName != null">
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="logoUrl != null">
+        #{logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.basic.car.model.CarBrand">
+    update car_brand
+    <set>
+      <if test="firstChar != null">
+        first_char = #{firstChar,jdbcType=CHAR},
+      </if>
+      <if test="brandName != null">
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="logoUrl != null">
+        logo_url = #{logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.basic.car.model.CarBrand">
+    update car_brand
+    set first_char = #{firstChar,jdbcType=CHAR},
+      brand_name = #{brandName,jdbcType=VARCHAR},
+      logo_url = #{logoUrl,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

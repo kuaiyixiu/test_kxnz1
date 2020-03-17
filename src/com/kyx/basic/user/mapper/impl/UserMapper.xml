@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.basic.user.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.basic.user.model.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_realname" jdbcType="VARCHAR" property="userRealname" />
+    <result column="user_age" jdbcType="INTEGER" property="userAge" />
+    <result column="user_sex" jdbcType="VARCHAR" property="userSex" />
+    <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="reg_time" jdbcType="TIMESTAMP" property="regTime" />
+    <result column="last_logintime" jdbcType="TIMESTAMP" property="lastLogintime" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="relation_phone" jdbcType="VARCHAR" property="relationPhone" />
+    <result column="relation_user" jdbcType="VARCHAR" property="relationUser" />
+    <result column="relation" jdbcType="VARCHAR" property="relation" />
+    <result column="entry_date" jdbcType="TIMESTAMP" property="entryDate" />
+    <result column="level" jdbcType="VARCHAR" property="level" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="enable" jdbcType="VARCHAR" property="enable" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
+    <result column="rolename" jdbcType="VARCHAR" property="roleName" />
+    <result column="boss_account" jdbcType="VARCHAR" property="bossAccount" />
+    <result column="qq" jdbcType="VARCHAR" property="qq" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="wechat_no" jdbcType="VARCHAR" property="wechatNo" />
+    <result column="user_photo" jdbcType="VARCHAR" property="userPhoto"/>
+    <result column="invitation_code" jdbcType="VARCHAR" property="invitationCode"/>
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_name, user_password, user_realname, user_age, user_sex, user_address, user_phone, 
+    reg_time, last_logintime, id_card, birthday, relation_phone, relation_user, relation, 
+    entry_date, level, status, role_id, enable, post, shop_id,boss_account,qq,email,wechat_no,user_photo
+    ,invitation_code, end_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kyx.basic.user.model.User">
+    insert into user (id, user_name, user_password, 
+      user_realname, user_age, user_sex, 
+      user_address, user_phone, reg_time, 
+      last_logintime, id_card, birthday, 
+      relation_phone, relation_user, relation, 
+      entry_date, level, status, 
+      role_id, enable, post, 
+      shop_id,qq,email,wechat_no,user_photo,invitation_code, end_time)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userRealname,jdbcType=VARCHAR}, #{userAge,jdbcType=INTEGER}, #{userSex,jdbcType=VARCHAR}, 
+      #{userAddress,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, #{regTime,jdbcType=TIMESTAMP}, 
+      #{lastLogintime,jdbcType=TIMESTAMP}, #{idCard,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, 
+      #{relationPhone,jdbcType=VARCHAR}, #{relationUser,jdbcType=VARCHAR}, #{relation,jdbcType=VARCHAR}, 
+      #{entryDate,jdbcType=TIMESTAMP}, #{level,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{roleId,jdbcType=INTEGER}, #{enable,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, 
+      #{shopId,jdbcType=INTEGER}, #{qq,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{wechatNo,jdbcType=VARCHAR}
+      , #{userPhoto,jdbcType=VARCHAR}, #{invitationCode,jdbcType=VARCHAR}, #{endTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kyx.basic.user.model.User" useGeneratedKeys="true" keyProperty="id" keyColumn="id"> 
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userPassword != null">
+        user_password,
+      </if>
+      <if test="userRealname != null">
+        user_realname,
+      </if>
+      <if test="userAge != null">
+        user_age,
+      </if>
+      <if test="userSex != null">
+        user_sex,
+      </if>
+      <if test="userAddress != null">
+        user_address,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="regTime != null">
+        reg_time,
+      </if>
+      <if test="lastLogintime != null">
+        last_logintime,
+      </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="relationPhone != null">
+        relation_phone,
+      </if>
+      <if test="relationUser != null">
+        relation_user,
+      </if>
+      <if test="relation != null">
+        relation,
+      </if>
+      <if test="entryDate != null">
+        entry_date,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="enable != null">
+        enable,
+      </if>
+      <if test="post != null">
+        post,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="bossAccount !=null">
+      boss_account,
+      </if>
+      <if test="qq !=null">
+      qq,
+      </if>
+      <if test="email !=null">
+      email,
+      </if>
+      <if test="wechatNo !=null">
+      wechat_no,
+      </if>
+      <if test="userPhoto !=null">
+        user_photo,
+      </if>
+      <if test="invitationCode !=null">
+        invitation_code,
+      </if>
+      <if test="endTime !=null">
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userRealname != null">
+        #{userRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="userAge != null">
+        #{userAge,jdbcType=INTEGER},
+      </if>
+      <if test="userSex != null">
+        #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddress != null">
+        #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="regTime != null">
+        #{regTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogintime != null">
+        #{lastLogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="relationPhone != null">
+        #{relationPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="relationUser != null">
+        #{relationUser,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null">
+        #{relation,jdbcType=VARCHAR},
+      </if>
+      <if test="entryDate != null">
+        #{entryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="bossAccount !=null">
+      #{bossAccount,jdbcType=INTEGER},
+      </if>
+      <if test="qq !=null">
+      #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="email !=null">
+      #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNo !=null">
+      #{wechatNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhoto !=null">
+        #{userPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="invitationCode !=null">
+        #{invitationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime !=null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.basic.user.model.User">
+    update user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userRealname != null">
+        user_realname = #{userRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="userAge != null">
+        user_age = #{userAge,jdbcType=INTEGER},
+      </if>
+      <if test="userSex != null">
+        user_sex = #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddress != null">
+        user_address = #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="regTime != null">
+        reg_time = #{regTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogintime != null">
+        last_logintime = #{lastLogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="relationPhone != null">
+        relation_phone = #{relationPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="relationUser != null">
+        relation_user = #{relationUser,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null">
+        relation = #{relation,jdbcType=VARCHAR},
+      </if>
+      <if test="entryDate != null">
+        entry_date = #{entryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null">
+        enable = #{enable,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="bossAccount !=null">
+      boss_account=#{bossAccount,jdbcType=INTEGER},
+      </if>
+      <if test="qq !=null">
+      qq=#{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="email !=null">
+      email=#{email,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNo !=null">
+      wechat_no=#{wechatNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhoto !=null">
+        user_photo=#{userPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="invitationCode !=null">
+        invitation_code=#{invitationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime !=null">
+        end_time=#{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kyx.basic.user.model.User">
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_realname = #{userRealname,jdbcType=VARCHAR},
+      user_age = #{userAge,jdbcType=INTEGER},
+      user_sex = #{userSex,jdbcType=VARCHAR},
+      user_address = #{userAddress,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      reg_time = #{regTime,jdbcType=TIMESTAMP},
+      last_logintime = #{lastLogintime,jdbcType=TIMESTAMP},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      relation_phone = #{relationPhone,jdbcType=VARCHAR},
+      relation_user = #{relationUser,jdbcType=VARCHAR},
+      relation = #{relation,jdbcType=VARCHAR},
+      entry_date = #{entryDate,jdbcType=TIMESTAMP},
+      level = #{level,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=INTEGER},
+      enable = #{enable,jdbcType=VARCHAR},
+      post = #{post,jdbcType=VARCHAR},
+      boss_account=#{bossAccount,jdbcType=INTEGER},
+      qq=#{qq,jdbcType=VARCHAR},
+      email=#{email,jdbcType=VARCHAR},
+      wechat_no=#{wechatNo,jdbcType=VARCHAR},
+      user_photo=#{userPhoto,jdbcType=VARCHAR},
+      invitation_code=#{invitationCode,jdbcType=VARCHAR},
+      end_time=#{endTime,jdbcType=TIMESTAMP},
+      shop_id = #{shopId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="querySingleUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user where user_name = #{userName} and status='1' and enable='1'
+  </select>
+  <select id="getUserInfo" parameterType="com.kyx.basic.user.model.User" resultMap="BaseResultMap">
+    select 
+    u.*,s.shop_name as shop_name 
+    from user u left join shops_info s on u.shop_id=s.id where u.role_id !=1 
+    <if test="userName != null and userName !=''">
+    and u.user_name like CONCAT(CONCAT('%', #{userName}), '%')
+    </if>
+    <if test="shopId != null">
+    and u.shop_id = #{shopId}
+    </if>
+    <if test="userRealname != null and userRealname !=''">
+    and u.user_realname = #{userRealname}
+    </if>
+    <if test="status != null and status !=''">
+    and u.status = #{status}
+    </if>
+    <if test="bossAccount != null">
+    and u.boss_account = #{bossAccount}
+    </if>
+    <if test="keyword != null and keyword != ''">
+    and (u.user_realname like CONCAT('%', #{keyword},'%') or u.user_phone like CONCAT('%', #{keyword},'%')
+     or s.shop_name like CONCAT('%', #{keyword},'%'))
+    </if>
+    order by u.id desc
+  </select>
+  
+   <select id="getCountByShop" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(*) from user
+    where shop_id = #{id}
+  </select>
+  
+  <select id="getByRoleId" resultType="java.lang.Integer">
+    select count(*) from user where role_id = #{roleId, jdbcType=INTEGER} and shop_id = #{shopId, jdbcType=INTEGER}
+  </select>
+  <select id="queryExistUserName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from user
+    where user_name = ${username} limit 1
+  </select>
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyx.biz.paytype.mapper.PayTypeMapper">
+  <resultMap id="BaseResultMap" type="com.kyx.biz.paytype.model.PayType">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pay_name" jdbcType="VARCHAR" property="payName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="shop_checked" jdbcType="INTEGER" property="shopChecked" />
+    <result column="cust_checked" jdbcType="INTEGER" property="custChecked" />
+    <result column="is_system" jdbcType="INTEGER" property="isSystem" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pay_name, remark, shop_id,shop_checked,cust_checked,is_system
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pay_type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pay_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.kyx.biz.paytype.model.PayType">
+    insert into pay_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="payName != null">
+        pay_name,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="shopChecked != null">
+        shop_checked,
+      </if>
+      <if test="custChecked != null">
+        cust_checked,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="payName != null">
+        #{payName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="shopChecked != null">
+         #{shopChecked,jdbcType=INTEGER},
+      </if>
+      <if test="custChecked != null">
+        #{custChecked,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kyx.biz.paytype.model.PayType">
+    update pay_type
+    <set>
+      <if test="payName != null">
+        pay_name = #{payName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="shopChecked != null">
+         shop_checked=#{shopChecked,jdbcType=INTEGER},
+      </if>
+      <if test="custChecked != null">
+        cust_checked=#{custChecked,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getPayTypeList" parameterType="com.kyx.biz.paytype.model.PayType" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pay_type   where 1=1  
+    <!--  付款方式先不根据门店判断
+    <if test="shopId != null">
+        and shop_id=#{shopId} 
+    </if>
+    -->
+    <if test="payName != null and payName != ''">
+        and pay_name like   CONCAT('%',#{payName},'%')
+      
+    </if> 	
+    order by id 
+  </select>
+  <select id="getCountByName" resultType="java.lang.Integer">
+    select count(*) from pay_type where pay_name = #{payName}
+  </select>
+  <select id="getPayType" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pay_type   where 1=1  
+    <!--  付款方式先不根据门店判断
+    <if test="shopId != null">
+        and shop_id=#{shopId} 
+    </if>
+    -->
+    <if test="type==1">
+        and cust_checked=1
+    </if> 	
+    <if test="type==2">
+        and shop_checked=1
+    </if> 
+    order by id 
+  </select>
+  
+    <select id="getPayTypes" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pay_type   where 
+    <!--  付款方式先不根据门店判断
+    <if test="shopId != null">
+        and shop_id=#{shopId} 
+    </if>
+    -->
+    cust_checked = 1
+     
+    and  id not in (4,5,6)
+     
+    order by id 
+  </select>
+</mapper>
