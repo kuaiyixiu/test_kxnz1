@@ -1,0 +1,113 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd"
+	default-autowire="byName">
+	<!-- 1.配置jdbc文件 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations" value="classpath:/jdbc.properties" />
+	</bean>
+
+	<!-- 2.扫描的包路径，这里不扫描被@Controller注解的类 -->
+	<context:component-scan base-package="com.kyx">
+<!-- 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" /> -->
+<!-- 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository" /> -->
+	</context:component-scan>
+
+	<!-- 3.配置数据源 ，使用的alibba的数据库 -->
+	<bean id="masterDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<!-- 基本属性 url、user、password -->
+		<property name="driverClassName" value="${jdbc_driverClassName}" />
+		<property name="url" value="${jdbc_url}" />
+		<property name="username" value="${jdbc_username}" />
+		<property name="password" value="${jdbc_password}" />
+		<!-- 注意此，指定数据库类型 -->
+		<!-- <property name="dbType" value="MYSQL"></property> -->
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="10" />
+		<property name="minIdle" value="10" />
+		<property name="maxActive" value="50" />
+
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="60000" />
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。 -->
+		<property name="poolPreparedStatements" value="false" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="20" />
+
+		<!-- 配置监控统计拦截的filters -->
+		<property name="filters" value="wall,stat" />
+	</bean>
+	<!--多数据源 -->
+	<bean id="multipleDataSource" class="com.kyx.basic.db.DynamicDataSource">
+		<property name="masterDataSource" ref="masterDataSource"></property>
+	</bean>
+
+	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+	<bean id="mybatisSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="multipleDataSource" />
+		<!-- 自动扫描mapping.xml文件，**表示迭代查找 -->
+		<property name="mapperLocations" value="classpath:com/kyx/**/*.xml" />
+		<!-- 配置分页插件 -->
+		<property name="plugins">
+			<array>
+				<bean class="com.github.pagehelper.PageHelper">
+					<property name="properties">
+						<value>
+							<!-- 你使用的数据库类型 -->
+							dialect=mysql
+							reasonable=true
+						</value>
+					</property>
+				</bean>
+			</array>
+		</property>
+	</bean>
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 ,自动扫描了所有的XxxxMapper.xml对应的mapper接口文件,只要Mapper接口类和Mapper映射文件对应起来就可以了 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.kyx.**.mapper" />
+<!-- 		<property name="sqlSessionFactoryBeanName" value="mybatisSqlSessionFactory"></property> -->
+<!-- 		<property name="annotationClass" value="org.springframework.stereotype.Repository"></property> -->
+	</bean>
+	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="multipleDataSource" />
+	</bean>
+
+	<!--======= 事务配置 End =================== -->
+	<!-- 配置基于注解的声明式事务 -->
+	<!-- enables scanning for @Transactional annotations -->
+ 	<tx:annotation-driven transaction-manager="transactionManager" /> 
+
+     <bean id="uploadImage" class="com.kyx.basic.util.FileUploadUtil">
+      <property name="path" value = "/www/image/"/> 
+      <!-- <property name="path" value = "D:/www/image/"/> -->
+     </bean>
+      <!--微信支付配置-->
+     <bean id="myWxConfig" class="com.kyx.biz.wxutil.MyWxConfig" />
+     
+	<import resource="spring-security.xml" />
+</beans>

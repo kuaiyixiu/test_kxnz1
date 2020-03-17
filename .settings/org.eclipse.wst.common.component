@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="kxnz">
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/" source-path="/WebRoot"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/config"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/resource"/>
+        <property name="java-output-path" value="/kxnz/WebRoot/src"/>
+        <property name="context-root" value="/kxnz"/>
+    </wb-module>
+</project-modules>
