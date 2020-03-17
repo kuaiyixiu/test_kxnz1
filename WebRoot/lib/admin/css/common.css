@@ -1,0 +1,50 @@
+.layui-unselect dl { max-height:200px; min-height:100px;}
+.layui-form-selected dl {max-height:200px;min-height:100px;}
+.text-right{text-align: right;}
+.text-left{text-align: left;}
+.text-center{text-align: center;}
+.bottom-btn{position: absolute;bottom: 0px;right: 10px;}
+.x-table {
+  min-height: 1px;
+  font-size: 14px;
+  margin: 0px 20px 20px 20px;
+ /* background-color: #f5f7f9; */
+  
+  }
+
+
+.x-table > .x-tr {
+ /* border-bottom: 1px solid #EAEDEE;*/ }
+
+.x-table > .x-tr:first-child {
+  /*  border-top: 1px solid #EAEDEE;*/ }
+
+.x-tr-left {
+  padding-top: 12px;
+  padding-bottom: 12px; }
+
+.x-tr-right {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: right;
+  }
+
+.x-tr {
+	/*padding-left:15px;*/
+	/*padding-right:15px;*/
+	/*background-color: #f5f7f9;*/ 
+   }
+
+.section{margin: 10px 10px 3px 10px;}
+.section-title{font-size: 16px;}
+.layui-label {
+	float: left;
+    display: block;
+    padding: 9px 15px;
+    width: 200px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+}
+
+body{overflow-y: scroll;}

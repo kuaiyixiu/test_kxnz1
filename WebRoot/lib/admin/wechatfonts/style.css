@@ -1,0 +1,179 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?rknbfc');
+  src:  url('fonts/icomoon.eot?rknbfc#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?rknbfc') format('truetype'),
+    url('fonts/icomoon.woff?rknbfc') format('woff'),
+    url('fonts/icomoon.svg?rknbfc#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-uniE900:before {
+  content: "\e900";
+  color: #1c9bd7;
+}
+.icon-1:before {
+  content: "\e901";
+  color: #1c9bd7;
+}
+.icon-2:before {
+  content: "\e902";
+  color: #1c9bd7;
+}
+.icon-3:before {
+  content: "\e903";
+  color: #1c9bd7;
+}
+.icon-4:before {
+  content: "\e904";
+  color: #1c9bd7;
+}
+.icon-5:before {
+  content: "\e905";
+  color: #00a2e9;
+}
+.icon-6 .path1:before {
+  content: "\e906";
+  color: rgb(0, 162, 233);
+}
+.icon-6 .path2:before {
+  content: "\e907";
+  margin-left: -1em;
+  color: rgb(0, 162, 233);
+}
+.icon-6 .path3:before {
+  content: "\e908";
+  margin-left: -1em;
+  color: rgb(254, 254, 254);
+}
+.icon-6 .path4:before {
+  content: "\e909";
+  margin-left: -1em;
+  color: rgb(254, 254, 254);
+}
+.icon-6 .path5:before {
+  content: "\e90a";
+  margin-left: -1em;
+  color: rgb(252, 203, 16);
+}
+.icon-7 .path1:before {
+  content: "\e90b";
+  color: rgb(0, 162, 233);
+}
+.icon-7 .path2:before {
+  content: "\e90c";
+  margin-left: -1em;
+  color: rgb(0, 162, 233);
+}
+.icon-7 .path3:before {
+  content: "\e90d";
+  margin-left: -1em;
+  color: rgb(0, 162, 233);
+}
+.icon-7 .path4:before {
+  content: "\e90e";
+  margin-left: -1em;
+  color: rgb(252, 203, 16);
+}
+.icon-8 .path1:before {
+  content: "\e90f";
+  color: rgb(0, 162, 233);
+}
+.icon-8 .path2:before {
+  content: "\e910";
+  margin-left: -1em;
+  color: rgb(252, 203, 16);
+}
+.icon-8 .path3:before {
+  content: "\e911";
+  margin-left: -1em;
+  color: none;
+}
+.icon-8 .path4:before {
+  content: "\e912";
+  margin-left: -1em;
+  color: rgb(0, 162, 233);
+}
+.icon-9 .path1:before {
+  content: "\e913";
+  color: rgb(0, 162, 233);
+}
+.icon-9 .path2:before {
+  content: "\e914";
+  margin-left: -1em;
+  color: rgb(0, 162, 233);
+}
+.icon-9 .path3:before {
+  content: "\e915";
+  margin-left: -1em;
+  color: rgb(252, 203, 16);
+}
+.icon-9 .path4:before {
+  content: "\e916";
+  margin-left: -1em;
+  color: rgb(252, 203, 16);
+}
+.icon-9 .path5:before {
+  content: "\e917";
+  margin-left: -1em;
+  color: rgb(252, 203, 16);
+}
+.icon-10 .path1:before {
+  content: "\e918";
+  color: rgb(0, 162, 233);
+}
+.icon-10 .path2:before {
+  content: "\e919";
+  margin-left: -1em;
+  color: rgb(252, 203, 16);
+}
+.icon-10 .path3:before {
+  content: "\e91a";
+  margin-left: -1em;
+  color: rgb(254, 254, 254);
+}
+.icon-10 .path4:before {
+  content: "\e91b";
+  margin-left: -1em;
+  color: rgb(254, 254, 254);
+}
+.icon-10 .path5:before {
+  content: "\e91c";
+  margin-left: -1em;
+  color: rgb(254, 254, 254);
+}
+.icon-11 .path1:before {
+  content: "\e91d";
+  color: rgb(0, 162, 233);
+}
+.icon-11 .path2:before {
+  content: "\e91e";
+  margin-left: -1em;
+  color: rgb(0, 162, 233);
+}
+.icon-11 .path3:before {
+  content: "\e91f";
+  margin-left: -1em;
+  color: rgb(254, 254, 254);
+}
+.icon-11 .path4:before {
+  content: "\e920";
+  margin-left: -1em;
+  color: rgb(252, 203, 16);
+}
