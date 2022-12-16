@@ -9,7 +9,7 @@
 	<description />
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.vesion>4.3.9.RELEASE</spring.vesion>
+		<spring.vesion>5.2.20.RELEASE</spring.vesion>
 		<!-- mybatis版本号 -->
 		<mybatis.version>3.4.6</mybatis.version>
 		<!-- log4j日志文件管理包版本 -->
